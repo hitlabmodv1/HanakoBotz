@@ -1,184 +1,77 @@
-const axios = require('axios')
-const cheerio = require('cheerio')
+let rinokumura = {
+    command: "otakudesu",
+    alias: [
+        "otaku",
+        "otk"
+    ],
+    category: [
+        "anime"
+    ],
+    settings: {
+        limit: true
+    },
+    loading: true,
+    async run(m, {
+        sock,
+        client,
+        conn,
+        DekuGanz,
+        Func,
+        Scraper,
+        text,
+        config
+    }) {
+        const ongoing = await Scraper.otakudesu.ongoing()
+        let cap = `⚠️ Anda Masukkan Link/Query !\n\n👤 Latest Anime\n\nPilih Nomor Reply Pesan\n${ongoing.map((a, i) => `[ ${i + 1} ]\n> • Title: ${a.title}\n> • Date: ${a.date}\n> • Link: ${a.link}`).join("\n\n")}`
 
-module.exports = {
-command: "otakudesu",
-alias: [ ],
-category: ["anime"],
-  settigs: {
-    limit: true,
-  },
-description: "Search Judul Anime",
-loading: true,
-async run(m, { sock, Func, Scraper, text, config }) {
+        // Detail Anime
+        if (text.includes('https://otakudesu.cloud/anime/')) {
+            const {
+                episodes: eps
+            } = await Scraper.otakudesu.detail(text)
+            if (!eps && !eps.length > 0 && !eps.length === 0) throw 'Maaf Metadata Gagal Di Fetcher😂'
+            let cap = `🎥 Episode\n\nPilih Nomor Reply Pesan\n${eps.map((a, i) => `[ ${i + 1} ]\n> • Title: ${a.title}\n> • Link: ${a.link}\n> • Date: ${a.date}`).join("\n\n")}`
 
-if(!text) throw 'mau search judul anime apa?'
+            client.sendAliasMessage(m.cht, {
+                text: cap
+            }, eps.map((a, i) => ({
+                alias: `${i + 1}`,
+                response: `${m.prefix + m.command} ${a.link}`
+            })), m)
+        } else if (text.includes('https://otakudesu.cloud/episode/')) {
+            const {
+                downloads: dl
+            } = await Scraper.otakudesu.download(text)
+            if (!dl && !dl.length > 0 && !dl.length === 0) throw 'Maaf Metadata Gagal Di Fetcher😂'
 
-let query = text.trim()
-let result = await otakudesu.search(query)
-if (!result || result.length === 0) {
-  m.reply('Yang Ada Search Ga ketemu')
+            let cap = `📁 Downloader Files\n\n${dl.map((a) => `[ ${a.quality} ]\n> • Link: ${a.link}`).join("\n\n")}`
+
+            client.sendMessage(m.cht, {
+                text: cap
+            }, {
+                quoted: m
+            })
+        } else if (text) {
+            const otakusea = await Scraper.otakudesu.search(text)
+            if (!otakusea && !otakusea.length > 0 && !otakusea.length === 0) throw 'Maaf Metadata Gagal Di Fetcher😂'
+
+            let cap = `🔍Search Otakudesu\n\nPilih Nomor Reply Pesan\n${otakusea.map((a, i) => `[ ${i + 1} ]\n> • Title: ${a.title}\n> • Rating: ${a.rating}\n> • Link: ${a.link}\n> • Genre: ${a.genres}`).join("\n\n")}`
+
+            client.sendAliasMessage(m.cht, {
+                text: cap
+            }, otakusea.map((a, i) => ({
+                alias: `${i + 1}`,
+                response: `${m.prefix + m.command} ${a.link}`
+            })), m)
+        } else {
+            client.sendAliasMessage(m.cht, {
+                text: cap
+            }, ongoing.map((a, i) => ({
+                alias: `${i + 1}`,
+                response: `${m.prefix + m.command} ${a.link}`
+            })), m)
+        }
+    }
 }
 
-let anime = `⏤͟͟͞͞╳── *[ sᴇᴀʀᴄʜ - ᴀɴɪᴍᴇ - ᴏᴛᴀᴋᴜᴅᴇsᴜ ]* ── .々─ᯤ 
-│    =〆 ᴛɪᴛʟᴇ: ${result[0].title}
-│    =〆 ɢᴇɴʀᴇs: ${result[0].genres}
-│    =〆 sᴛᴀᴛᴜs: ${result[0].status}
-│    =〆 ʀᴀᴛɪɴɢ: ${result[0].rating}
-│    =〆 ʟɪɴᴋ: ${result[0].link}
-⏤͟͟͞͞╳────────── .✦`
-
-await m.reply({
-text: anime,
-contextInfo: {
-      isForwarded: true,
-     forwardingScore: 99999,
-    externalAdReply: {
-      showAdAttribution: true,
-      title: result[0].title,
-      mediaType: 1,
-      previewType: 1,
-      body: result.rating,
-      //previewType: "PHOTO",
-      thumbnailUrl: result[0].imageUrl,
-      renderLargerThumbnail: false,
-      mediaUrl: result[0].link,
-      sourceUrl: result[0].link
-     },
-      forwardedNewsletterMessageInfo: {
- newsletterJid: config.saluran,
- newsletterName: `By : ${config.ownername}`,
- serverMessageId: 143
-    }
-  }
-})
-
-}
-}
-
-const otakudesu = {
-  ongoing: async () => {
-    try {
-        const { data } = await axios.get('https://otakudesu.cloud/');
-        const $ = cheerio.load(data);
-        const results = [];
-
-        $('.venz ul li').each((index, element) => {
-            const episode = $(element).find('.epz').text().trim();
-            const type = $(element).find('.epztipe').text().trim();
-            const date = $(element).find('.newnime').text().trim();
-            const title = $(element).find('.jdlflm').text().trim();
-            const link = $(element).find('a').attr('href');
-            const image = $(element).find('img').attr('src');
-
-            results.push({
-                episode,
-                type,
-                date,
-                title,
-                link,
-                image
-            });
-        });
-
-        return results;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
-  },
-  search: async (query) => {
-    const url = `https://otakudesu.cloud/?s=${query}&post_type=anime`;
-    try {
-        const { data } = await axios.get(url);
-        const $ = cheerio.load(data);
-        const animeList = [];
-        
-        $('.chivsrc li').each((index, element) => {
-            const title = $(element).find('h2 a').text().trim();
-            const link = $(element).find('h2 a').attr('href');
-            const imageUrl = $(element).find('img').attr('src');
-            const genres = $(element).find('.set').first().text().replace('Genres : ', '').trim();
-            const status = $(element).find('.set').eq(1).text().replace('Status : ', '').trim();
-            const rating = $(element).find('.set').eq(2).text().replace('Rating : ', '').trim() || 'N/A';
-
-            animeList.push({
-                title,
-                link,
-                imageUrl,
-                genres,
-                status,
-                rating
-            });
-        });
-        return animeList;
-        
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return { error: 'Error fetching data' };
-    }
-  },
-  detail: async (url) => {
-    try {
-        const { data } = await axios.get(url);
-        const $ = cheerio.load(data);
-       
-        const animeInfo = {
-            title: $('.fotoanime .infozingle p span b:contains("Judul")').parent().text().replace('Judul: ', '').trim(),
-            japaneseTitle: $('.fotoanime .infozingle p span b:contains("Japanese")').parent().text().replace('Japanese: ', '').trim(),
-            score: $('.fotoanime .infozingle p span b:contains("Skor")').parent().text().replace('Skor: ', '').trim(),
-            producer: $('.fotoanime .infozingle p span b:contains("Produser")').parent().text().replace('Produser: ', '').trim(),
-            type: $('.fotoanime .infozingle p span b:contains("Tipe")').parent().text().replace('Tipe: ', '').trim(),
-            status: $('.fotoanime .infozingle p span b:contains("Status")').parent().text().replace('Status: ', '').trim(),
-            totalEpisodes: $('.fotoanime .infozingle p span b:contains("Total Episode")').parent().text().replace('Total Episode: ', '').trim(),
-            duration: $('.fotoanime .infozingle p span b:contains("Durasi")').parent().text().replace('Durasi: ', '').trim(),
-            releaseDate: $('.fotoanime .infozingle p span b:contains("Tanggal Rilis")').parent().text().replace('Tanggal Rilis: ', '').trim(),
-            studio: $('.fotoanime .infozingle p span b:contains("Studio")').parent().text().replace('Studio: ', '').trim(),
-            genres: $('.fotoanime .infozingle p span b:contains("Genre")').parent().text().replace('Genre: ', '').trim(),
-            imageUrl: $('.fotoanime img').attr('src')
-        };
-
-        const episodes = [];
-        $('.episodelist ul li').each((index, element) => {
-            const episodeTitle = $(element).find('span a').text();
-            const episodeLink = $(element).find('span a').attr('href');
-            const episodeDate = $(element).find('.zeebr').text();
-            episodes.push({ title: episodeTitle, link: episodeLink, date: episodeDate });
-        });
-
-        return {
-            animeInfo,
-            episodes
-        };
-        
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return { error: 'Error fetching data' };
-    }
-  },
-  download: async (url) => {
-    try {
-        const { data } = await axios.get(url);
-        const $ = cheerio.load(data);
-       
-        const episodeInfo = {
-            title: $('.download h4').text().trim(),
-            downloads: []
-        };
-
-        $('.download ul li').each((index, element) => {
-            const quality = $(element).find('strong').text().trim();
-            const links = $(element).find('a').map((i, el) => ({
-                quality,
-                link: $(el).attr('href'),
-                host: $(el).text().trim()
-            })).get();
-            episodeInfo.downloads.push(...links);
-        });
-        return episodeInfo;
-        
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return { error: 'Error fetching data' };
-    }
-  }
-}
+module.exports = rinokumura
