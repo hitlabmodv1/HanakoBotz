@@ -1,32 +1,53 @@
-let deku = async (m, {
+const fetch = require('node-fetch')
+
+let Yukio = async (m, {
     sock,
+    client,
+    conn,
+    DekuGanz,
     Func,
     Scraper,
-    Uploader,
-    store,
     text,
     config
 }) => {
+    if (!/sfile.mobi/.test(text)) throw '> mana link nya kak !'
+    const result = await Scraper.sfile(text)
+    if (!result && !result.length > 0 && !result === 0) {
+        m.reply('ups dl eror + metadata nya😂')
+    }
 
-    if (!text.includes('sfile.mobi')) throw 'masukan link sfile nya'
-
-    const file = await Scraper.Sfile(text)
-
-    m.reply({
-        document: file.data.result.buffer,
-        caption: Object.entries(file.data).map(([a, b]) => `> *- ${a.capitalize()} :* ${b}`).join("\n"),
-        mimetype: file.data.mimetype,
-        fileName: file.data.result.filename
+    let data = await fetch(result.dl);
+    let fetcher = await data.buffer();
+    const {
+        key
+    } = await sock.sendMessage(m.cht, {
+        text: "Lagi Loading...."
+    }, {
+        quoted: m
     })
+
+    await sock.sendMessage(m.cht, {
+        text: `📁Download Sfile\n${Object.entries(result).map(([a, b]) => `> *- ${a.capitalize()} :* ${b}`).join("\n")}\n\nFile Akan Di Kirim...`,
+        edit: key
+    }, {
+        quoted: m
+    })
+    await sock.sendFile(m.cht, Buffer.from(fetcher), result.name + `.${result.ext}`, `📁Download Sfile\n${Object.entries(result).map(([a, b]) => `> *- ${a.capitalize()} :* ${b}`).join("\n")}`, m)
 }
 
-deku.command = "sfile"
-deku.alias = []
-deku.category = ["downloader"]
-deku.settings = {
-    limit: true
+module.exports = {
+    command: "sfile",
+    alias: [
+        "sf",
+        "sfdl",
+        "sfiledl"
+    ],
+    category: [
+        "downloader"
+    ],
+    settings: {
+        limit: true
+    },
+    loading: true,
+    run: Yukio
 }
-deku.description = "mendownload sfile"
-deku.loading = true
-
-module.exports = deku
