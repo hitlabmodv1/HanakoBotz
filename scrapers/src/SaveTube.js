@@ -1,91 +1,182 @@
-const axios = require('axios')
+const axios = require('axios');
+const crypto = require('crypto');
 
-const SaveTube = {
-    qualities: {
-        audio: { 1: '32', 2: '64', 3: '128', 4: '192' },
-        video: { 1: '144', 2: '240', 3: '360', 4: '480', 5: '720', 6: '1080', 7: '1440', 8: '2160' }
-    },
-    
-    headers: {
-        'accept': '*/*',
-        'referer': 'https://ytshorts.savetube.me/',
-        'origin': 'https://ytshorts.savetube.me/',
-        'user-agent': 'Postify/1.0.0',
-        'Content-Type': 'application/json'
-    },
-    
-    cdn() {
-        return Math.floor(Math.random() * 11) + 51;
-    },
-    
-    checkQuality(type, qualityIndex) {
-        if (!(qualityIndex in this.qualities[type])) {
-            throw new Error(`❌ Kualitas ${type} tidak valid. Pilih salah satu: ${Object.keys(this.qualities[type]).join(', ')}`);
-        }
-    },
-    
-    async fetchData(url, cdn, body = {}) {
-        const headers = {
-            ...this.headers,
-            'authority': `cdn${cdn}.savetube.su`
-        };
+const savetube = {
+  api: {
+    base: "https://media.savetube.me/api",
+    cdn: "/random-cdn",
+    info: "/v2/info",
+    download: "/download"
+  },
+  headers: {
+    'accept': '*/*',
+    'content-type': 'application/json',
+    'origin': 'https://yt.savetube.me',
+    'referer': 'https://yt.savetube.me/',
+    'user-agent': 'Postify/1.0.0'
+  },
+  formats: ['144', '240', '360', '480', '720', '1080', 'mp3'],
 
-        try {
-            const response = await axios.post(url, body, { headers });
-            return response.data;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
+  crypto: {
+    hexToBuffer: (hexString) => {
+      const matches = hexString.match(/.{1,2}/g);
+      return Buffer.from(matches.join(''), 'hex');
     },
-    
-    dLink(cdnUrl, type, quality, videoKey) {
-        return `https://${cdnUrl}/download`;
-    },
-    
-    async dl(link, qualityIndex, typeIndex) {
-        const type = typeIndex
-        const quality = SaveTube.qualities[type][qualityIndex];
-        if (!type) throw new Error('❌ Tipe tidak valid. Pilih 1 untuk audio atau 2 untuk video.');
-        SaveTube.checkQuality(type, qualityIndex);
-        const cdnNumber = SaveTube.cdn();
-        const cdnUrl = `cdn${cdnNumber}.savetube.su`;
+
+    decrypt: async (enc) => {
+      try {
+        const secretKey = 'C5D58EF67A7584E4A29F6C35BBC4EB12';
+        const data = Buffer.from(enc, 'base64');
+        const iv = data.slice(0, 16);
+        const content = data.slice(16);
+        const key = savetube.crypto.hexToBuffer(secretKey);
         
-        const videoInfo = await SaveTube.fetchData(`https://${cdnUrl}/info`, cdnNumber, { url: link });
-        const badi = {
-            downloadType: type,
-            quality: quality,
-            key: videoInfo.data.key
-        };
-
-        const dlRes = await SaveTube.fetchData(SaveTube.dLink(cdnUrl, type, quality, videoInfo.data.key), cdnNumber, badi);
-
-        return {
-            link: dlRes.data.downloadUrl,
-            duration: videoInfo.data.duration,
-            durationLabel: videoInfo.data.durationLabel,
-            fromCache: videoInfo.data.fromCache,
-            id: videoInfo.data.id,
-            key: videoInfo.data.key,
-            thumbnail: videoInfo.data.thumbnail,
-            thumbnail_formats: videoInfo.data.thumbnail_formats,
-            title: videoInfo.data.title,
-            titleSlug: videoInfo.data.titleSlug,
-            videoUrl: videoInfo.data.url,
-            quality,
-            type
-        };
+        const decipher = crypto.createDecipheriv('aes-128-cbc', key, iv);
+        let decrypted = decipher.update(content);
+        decrypted = Buffer.concat([decrypted, decipher.final()]);
+        
+        return JSON.parse(decrypted.toString());
+      } catch (error) {
+        throw new Error(`${error.message}`);
+      }
     }
+  },
+
+  isUrl: str => { 
+    try { 
+      new URL(str); 
+      return true; 
+    } catch (_) { 
+      return false; 
+    } 
+  },
+
+  youtube: url => {
+    if (!url) return null;
+    const a = [
+      /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/v\/([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
+      /youtu\.be\/([a-zA-Z0-9_-]{11})/
+    ];
+    for (let b of a) {
+      if (b.test(url)) return url.match(b)[1];
+    }
+    return null;
+  },
+
+  request: async (endpoint, data = {}, method = 'post') => {
+    try {
+      const { data: response } = await axios({
+        method,
+        url: `${endpoint.startsWith('http') ? '' : savetube.api.base}${endpoint}`,
+        data: method === 'post' ? data : undefined,
+        params: method === 'get' ? data : undefined,
+        headers: savetube.headers
+      });
+      return {
+        status: true,
+        code: 200,
+        data: response
+      };
+    } catch (error) {
+      return {
+        status: false,
+        code: error.response?.status || 500,
+        error: error.message
+      };
+    }
+  },
+
+  getCDN: async () => {
+    const response = await savetube.request(savetube.api.cdn, {}, 'get');
+    if (!response.status) return response;
+    return {
+      status: true,
+      code: 200,
+      data: response.data.cdn
+    };
+  },
+
+  download: async (link, format) => {
+    if (!link) {
+      return {
+        status: false,
+        code: 400,
+        error: "Linknya mana? Yakali download kagak ada linknya 🗿"
+      };
+    }
+
+    if (!savetube.isUrl(link)) {
+      return {
+        status: false,
+        code: 400,
+        error: "Lu masukin link apaan sih 🗿 Link Youtube aja bree, kan lu mau download youtube 👍🏻"
+      };
+    }
+
+    if (!format || !savetube.formats.includes(format)) {
+      return {
+        status: false,
+        code: 400,
+        error: "Formatnya kagak ada bree, pilih yang udah disediain aja yak, jangan nyari yang gak ada 🗿",
+        available_fmt: savetube.formats
+      };
+    }
+
+    const id = savetube.youtube(link);
+    if (!id) {
+      return {
+        status: false,
+        code: 400,
+        error: "Kagak bisa ekstrak link youtubenya nih, btw link youtubenya yang bener yak.. biar kagak kejadian begini lagi 😂"
+      };
+    }
+
+    try {
+      const cdnx = await savetube.getCDN();
+      if (!cdnx.status) return cdnx;
+      const cdn = cdnx.data;
+
+      const result = await savetube.request(`https://${cdn}${savetube.api.info}`, {
+        url: `https://www.youtube.com/watch?v=${id}`
+      });
+      if (!result.status) return result;
+      const decrypted = await savetube.crypto.decrypt(result.data.data);
+
+      const dl = await savetube.request(`https://${cdn}${savetube.api.download}`, {
+        id: id,
+        downloadType: format === 'mp3' ? 'audio' : 'video',
+        quality: format,
+        key: decrypted.key
+      });
+
+      return {
+        status: true,
+        code: 200,
+        result: {
+          title: decrypted.title || "Gak tau 🤷🏻",
+          type: format === 'mp3' ? 'audio' : 'video',
+          format: format,
+          thumbnail: decrypted.thumbnail || `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
+          download: dl.data.data.downloadUrl,
+          id: id,
+          key: decrypted.key,
+          duration: decrypted.duration,
+          quality: format,
+          downloaded: dl.data.data.downloaded || false
+        }
+      };
+
+    } catch (error) {
+      return {
+        status: false,
+        code: 500,
+        error: error.message
+      };
+    }
+  }
 };
 
-class savetube {
-   mp3 = async function mp3save(url) {
-  return SaveTube.dl(url,"4","audio")
-}
-
-  mp4 = async function mp4save(url) {
-  return SaveTube.dl(url,"5","video")
-}
-}
-
-module.exports = new savetube()
+module.exports = savetube
