@@ -1,5 +1,3 @@
-const axios = require("axios");
-
 let rinokumura = {
     command: "spotify",
     alias: ["spdl"],
