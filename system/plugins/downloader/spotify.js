@@ -57,7 +57,7 @@ let rinokumura = {
                 let captions = `🔍 Search Spotify\n\n`
                 for (let i of a) {
                     captions += `Pilih Reply Nomor
-[ ${no++} } ]
+[ ${no++} ]
 > • Title: ${i.title}
 > • Artist: ${i.artist}
 > • Id: ${i.id}
