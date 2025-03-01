@@ -37,6 +37,7 @@ let deku = async (m, {
         year: 'numeric',
         timeZone: 'Asia/Jakarta'
     })
+    const hanakoai = await Scraper.aiMenu(`Hanako Kamu Menyapa ${m.pushName}-san/kun dan sesuai jam ini ya kek gini halo ${m.pushName}-san/kun gitu`, `Kamu Adalah Ai Hanako-Kun Dari Anime Jibaku Shounen Hanako Kun Kamu Bisa Bahasa Indonesia + Bahasa Jepang Kek Anime Gitu + Bergaulan + Emoticon + Emoji`)
     let runtime = speed()
     let totalreg = Object.keys(db.list().user).length
 
@@ -72,11 +73,11 @@ let deku = async (m, {
         category.command.forEach(command => alias += command.alias.length);
     });
 
-    let caption = Func.Styles(`ʜɪ ${m.pushName} , ɪ ᴀᴍ ᴀɴ ᴀᴜᴛᴏᴍᴀᴛᴇᴅ sʏsᴛᴇᴍ ( ᴡʜᴀᴛsᴀᴘᴘ ʙᴏᴛ )${readmore}. ᴛʜᴀᴛ ᴄᴀɴ ʜᴇʟᴘ ᴛᴏ ᴅᴏ sᴏᴍᴇᴛʜɪɴɢ sᴇᴀʀᴄʜ ᴀɴᴅ get ᴅᴀᴛᴀ ᴏʀ ɪɴғᴏʀᴍᴀᴛɪᴏɴ ᴏɴʟʏ ᴛʜʀᴏᴜɢʜ ᴡʜᴀᴛsᴀᴘᴘ, 
+    let caption = Func.Styles(`${hanakoai}${readmore}
 
 ⏤͟͟͞͞╳── *[ ɪɴғᴏ - ᴜsᴇʀ ]* ── .々─ᯤ
 │    =〆 ɴᴀᴍᴇ: ${m.pushName}
-│    =〆 ɴᴏᴍᴏʀ: ${m.sender.split('@')[0]}
+│    =〆 ɴᴏᴍᴏʀ: @${m.sender.split('@')[0]}
 │    =〆 ʟɪᴍɪᴛ: ${db.list().user[m.sender].limit}
 ⏤͟͟͞͞╳────────── .✦
 │
@@ -108,7 +109,7 @@ ${matches.map((a, i) => `│    =〆 ${m.prefix + a}`).join("\n")}`);
         caption: caption,
         gifPlayback: true,
         contextInfo: {
-            mentionedJid: [m.sender],
+            mentions: [m.sender],
             isForwarded: !0,
             forwardingScore: 127,
             forwardedNewsletterMessageInfo: {
