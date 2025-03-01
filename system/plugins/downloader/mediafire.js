@@ -1,4 +1,7 @@
-const axios = require('axios')
+const fetch = require('node-fetch')
+
+// Pengguna Esm
+// import fetch from 'node-fetch';
 
 let deku = async (m, {
     sock,
@@ -10,44 +13,55 @@ let deku = async (m, {
     text,
     config
 }) => {
-    if (!/www.mediafire.com/.test(text)) throw 'mana link MediaFire nya?'
-    if (Func.isUrl(text)) {
-        const mf = await axios.post('https://fgsi-mediafire.hf.space/', {
-            url: text
+    if (/www.mediafire.com/.test(text)) throw '⚠️ Mana Link MediaFire Nya !'
+    //try awal eror 
+    try {
+        //Scraper
+        const mf = await Scraper.mediafire(text)
+
+        // Gagal get metadata
+        if (!mf) return m.reply('maaf gagal di get eror mungkin 😂')
+
+        // Get mime
+        let data = await fetch(mf.link);
+        let fetcher = await data.buffer();
+
+        //loading
+        const {
+            key
+        } = await sock.sendMessage(m.cht, {
+            text: "Lagi Loading...."
         }, {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
+            quoted: m
         })
 
-        m.reply(Object.entries(mf.data.data).map(([b, c]) => `> *- ${Func.Styles(`${b.capitalize()}`)} :* ${c}`).join("\n"))
-
+        // edit pesan
         await sock.sendMessage(m.cht, {
-            document: {
-                url: mf.data.data.download
-            },
-            mimetype: mf.data.data.mimetype,
-            fileName: mf.data.data.filename,
-            caption: 'done'
+            text: `📁Download Sfile\n${Object.entries(mf).map(([a, b]) => `> *- ${a.capitalize()} :* ${b}`).join("\n")}\n\nFile Akan Di Kirim...`,
+            edit: key
         }, {
-            quoted: m.fmeta
+            quoted: m
         })
+
+        // Kirim Pesan File Mf
+        await sock.sendFile(m.cht, Buffer.from(fetcher), mf.filename, `📁Download Sfile\n${Object.entries(mf).map(([a, b]) => `> *- ${a.capitalize()} :* ${b}`).join("\n")}`, m)
+
+        // end error
+    } catch (err) {
+        m.reply('gomenazai error' + e)
+        console.log('gomenazai error' + e)
     }
 }
 
 deku.command = "mediafire"
-deku.alias = [
-    "mfdl",
-    "mf"
-]
-deku.category = [
-    "downloader"
-]
+deku.alias = ["mf", "mfdl"]
+deku.category = ["downloader"]
 deku.settings = {
     limit: true
 }
-deku.description = "Mendownload Mediafire"
 deku.loading = true
 
 module.exports = deku
+
+// penguna esm
+// export default deku;
