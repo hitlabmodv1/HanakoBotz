@@ -13,7 +13,7 @@ let deku = async (m, {
     text,
     config
 }) => {
-    if (/www.mediafire.com/.test(text)) throw '⚠️ Mana Link MediaFire Nya !'
+    if (!/www.mediafire.com/.test(text)) throw '⚠️ Mana Link MediaFire Nya !'
     //try awal eror 
     try {
         //Scraper
@@ -48,8 +48,8 @@ let deku = async (m, {
 
         // end error
     } catch (err) {
-        m.reply('gomenazai error' + err)
-        console.log('gomenazai error' + err)
+        m.reply('gomenazai error: ' + err)
+        console.log('gomenazai error: ' + err)
     }
 }
 
