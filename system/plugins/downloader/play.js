@@ -27,48 +27,38 @@ let rinokumura = {
         config
     }) {
         client.yt = client.yt || {}
-        if (!text) throw '⚠️ mana? link/query nya?'
+        if (!text) throw '⚠️ Mau Request Lagu Apa?'
         let isAudio = text.includes("--audio")
         let isVideo = text.includes("--video")
 
-        let videoUrl;
-        if (text.startsWith("http")) {
-            videoUrl = text;
-        } else {
-            let search = await yts(text);
-            if (!search.videos.length) return m.reply("❌ Video tidak ditemukan!");
-            videoUrl = search.videos[0].url;
-        }
+        let search = await yts(text);
+        if (!search.videos.length) return m.reply("❌ Video tidak ditemukan!");
+        let video = search.videos[0];
 
         client.yt[m.sender] = {
-            url: videoUrl
+            url: video.url
         };
 
-        const getid = await dist.getVideoID(client.yt[m.sender].url || videoUrl)
-
-        const getmetadata = await yts({
-            videoId: getid,
-            hl: 'id',
-            gl: 'ID'
-        });
-        const UrlYt = client.yt[m.sender].url || videoUrl
-        let metadata = `> • Title: ${getmetadata.title}
-> • Id: ${getmetadata.videoId}
-> • Ago: ${getmetadata.ago}
-> • Durasi: ${getmetadata.timestamp}
-> • Url: ${getmetadata.url}
+        const UrlYt = client.yt[m.sender].url || video.url
+        let metadata = `> • Title: ${video.title}
+> • Id: ${video.videoId}
+> • Ago: ${video.ago}
+> • Durasi: ${video.timestamp}
+> • Url: ${video.url}
 `
         let infoMessage = `📁 Download YouTube
 ${metadata}
 
- - Pilih Mau Yang mana !
- - 1 video download 
- - 2 audio download
-`
+ ℹ️ Pilih Options
+> • 1. video download 
+> • 2. audio download`
 
         if (!isAudio && !isVideo) {
             await client.sendAliasMessage(m.cht, {
-                text: infoMessage
+                image: {
+                    url: video.thumbnail
+                },
+                caption: infoMessage
             }, [{
                 alias: `1`,
                 response: `${m.prefix + m.command} ${UrlYt} --video`
@@ -78,15 +68,24 @@ ${metadata}
             }], m);
         }
 
-        const finalUrl = client.yt[m.sender].url || videoUrl
+        const finalUrl = client.yt[m.sender].url || video.url
 
         if (isAudio) {
-            const audio = await Scraper.SaveTube.download(finalUrl, "mp3")
-            const sizea = await Func.getSize(audio.result.download)
-            if (audio.size > 10 * 1024 * 1024) {
+            const savetubea = await Scraper.SaveTube.download(finalUrl, "mp3")
+
+            let audio;
+            if (savetubea.result.download) {
+                audio = savetubea.result.download;
+            } else {
+                const ytdowna = await Scraper.ytdown(finalUrl, "mp4", 720)
+                audio = ytdown.result;
+            }
+
+            const sizea = await Func.getSize(audio)
+            if (sizea > 10 * 1024 * 1024) {
                 return sock.sendMessage(m.cht, {
                     document: {
-                        url: audio.result.download
+                        url: audio
                     },
                     mimetype: "audio/mpeg",
                     fileName: `${audio.result.title}.mp3`,
@@ -96,7 +95,7 @@ ${metadata}
             } else {
                 return sock.sendMessage(m.cht, {
                     audio: {
-                        url: audio.result.download
+                        url: audio
                     },
                     mimetype: "audio/mpeg",
                 }, {
@@ -104,15 +103,24 @@ ${metadata}
                 });
             }
         } else if (isVideo) {
-            let video = await Scraper.SaveTube.download(finalUrl, "720")
-            let response = await fetch(video.result.download, {
+            const savetubev = await Scraper.SaveTube.download(finalUrl, "720")
+
+            let video;
+            if (savetubev.result.download) {
+                video = savetubev.result.download;
+            } else {
+                const ytdownv = await Scraper.ytdown(finalUrl, "mp4", 720)
+                video = ytdownv.result;
+            }
+
+            let response = await fetch(video, {
                 method: "HEAD"
             });
             let fileSizeInBytes = parseInt(response.headers.get("content-length"));
             if (fileSizeInBytes > 10 * 1024 * 1024) {
                 return sock.sendMessage(m.cht, {
                     document: {
-                        url: video.result.download
+                        url: video
                     },
                     mimetype: "video/mp4",
                     fileName: `${video.result.title}.mp4`,
@@ -122,7 +130,7 @@ ${metadata}
             } else {
                 return sock.sendMessage(m.cht, {
                     video: {
-                        url: video.result.download
+                        url: video
                     },
                     mimetype: "video/mp4",
                     caption: `📁 YouTube Dl Video\n${metadata}`
