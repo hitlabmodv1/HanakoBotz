@@ -27,7 +27,7 @@ let rinokumura = {
         config
     }) {
         client.yt = client.yt || {}
-        if (!text.includes('youtube')) throw '⚠️ mana link youtube nya'
+        if (!text.includes('youtu')) throw '⚠️ mana link youtube nya'
         let isAudio = text.includes("--audio")
         let isVideo = text.includes("--video")
 
