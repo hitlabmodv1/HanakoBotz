@@ -27,13 +27,23 @@ let rinokumura = {
         config
     }) {
         client.yt = client.yt || {}
-        if (!text) throw '⚠️ Mau Request Lagu Apa?'
+        if (!text) throw '⚠️ Mau Query/Link?'
         let isAudio = text.includes("--audio")
         let isVideo = text.includes("--video")
 
-        let search = await yts(text);
-        if (!search.videos.length) return m.reply("❌ Video tidak ditemukan!");
-        let video = search.videos[0];
+        let videoUrl;
+        if (text.startsWith("http")) {
+            const getid = await dist.getVideoID(text);
+            video = await yts({
+                videoId: getid,
+                hl: 'id',
+                gl: 'ID'
+            });
+        } else {
+            let search = await yts(text);
+            if (!search.videos.length) return m.reply("❌ Video tidak ditemukan!");
+            video = search.videos[0];
+        }
 
         client.yt[m.sender] = {
             url: video.url
