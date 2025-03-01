@@ -35,6 +35,9 @@ let deku = async (m, {
         year: 'numeric',
         timeZone: 'Asia/Jakarta'
     })
+
+    const hanakoai = await Scraper.aiMenu(`Hanako Kamu Menyapa ${m.pushName}-san/kun dan sesuai jam ini ya kek gini halo ${m.pushName}-san/kun gitu`, `Kamu Adalah Ai Hanako-Kun Dari Anime Jibaku Shounen Hanako Kun Kamu Bisa Bahasa Indonesia + Bahasa Jepang Kek Anime Gitu + Bergaulan + Emoticon + Emoji`)
+
     let runtime = speed()
     let totalreg = Object.keys(db.list().user).length
     let data = fs.readFileSync(process.cwd() + "/system/case.js", "utf8");
@@ -74,11 +77,11 @@ let deku = async (m, {
 
     if (Object.keys(menu).find((a) => a === text.toLowerCase())) {
         let list = menu[Object.keys(menu).find((a) => a === text.toLowerCase())];
-        let caption = Func.Styles(`ʜɪ ${m.pushName} , ɪ ᴀᴍ ᴀɴ ᴀᴜᴛᴏᴍᴀᴛᴇᴅ sʏsᴛᴇᴍ ( ᴡʜᴀᴛsᴀᴘᴘ ʙᴏᴛ )${readmore}. ᴛʜᴀᴛ ᴄᴀɴ ʜᴇʟᴘ ᴛᴏ ᴅᴏ sᴏᴍᴇᴛʜɪɴɢ sᴇᴀʀᴄʜ ᴀɴᴅ get ᴅᴀᴛᴀ ᴏʀ ɪɴғᴏʀᴍᴀᴛɪᴏɴ ᴏɴʟʏ ᴛʜʀᴏᴜɢʜ ᴡʜᴀᴛsᴀᴘᴘ, 
+        let caption = Func.Styles(`${hanakoai}${readmore}
 
 ⏤͟͟͞͞╳── *[ ɪɴғᴏ - ᴜsᴇʀ ]* ── .々─ᯤ
 │    =〆 ɴᴀᴍᴇ: ${m.pushName}
-│    =〆 ɴᴏᴍᴏʀ: ${m.sender.split('@')[0]}
+│    =〆 ɴᴏᴍᴏʀ: @${m.sender.split('@')[0]}
 │    =〆 ʟɪᴍɪᴛ: ${db.list().user[m.sender].limit}
 ⏤͟͟͞͞╳────────── .✦
 │
@@ -110,7 +113,7 @@ ${list.command
             caption: caption,
             gifPlayback: true,
             contextInfo: {
-                mentionedJid: [m.sender],
+                mentions: [m.sender],
                 isForwarded: !0,
                 forwardingScore: 127,
                 forwardedNewsletterMessageInfo: {
@@ -130,11 +133,11 @@ ${list.command
         })
     } else {
         let list = Object.keys(menu);
-        const xmenu_oh = `hai ${m.pushName} saya ${config.name} dan saya adalah bot wa di buat oleh deku
+        const xmenu_oh = `${hanakoai}${readmore}
 
 ⏤͟͟͞͞╳─ \`[ ɪɴғᴏ - ᴜsᴇʀ ]\` ── .々─ᯤ
 > ɴᴀᴍᴇ: ${m.pushName}
-> ɴᴏᴍᴏʀ: ${m.sender.split('@')[0]}
+> ɴᴏᴍᴏʀ: @${m.sender.split('@')[0]}
 > ʟɪᴍɪᴛ: ${db.list().user[m.sender].limit}
 
 ⏤͟͟͞͞╳─ \`[ informasi - bot ]\` ── .々─ᯤ
@@ -228,10 +231,10 @@ Kalau Error Bisa Hubungi Ke .owner gass`
             },
             caption: "",
             footer: Func.Styles(config.name),
-            title: xmenu_oh,
+            title: Func.Styles(xmenu_oh),
             subtitle: "",
             contextInfo: {
-                mentionedJid: [m.sender],
+                mentions: [m.sender],
                 isForwarded: !0,
                 forwardingScore: 127,
                 forwardedNewsletterMessageInfo: {
