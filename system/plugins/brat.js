@@ -18,11 +18,11 @@ let deku = async (m, {
     config
 }) => {
     if (!text) return m.reply("> Reply/Masukan pessn");
-    let media = await axios.get(`https://brat.caliphdev.com/api/brat?text=${text}`, {
+    let media = await axios.get(`https://aqul-brat.hf.space/api/brat?text=${text}`, {
         responseType: 'arraybuffer'
     }).then(a => a.data);
     let sticker = await writeExif({
-        mimetype: "video",
+        mimetype: "image",
         data: media,
     }, {
         packName: config.sticker.packname,
@@ -39,7 +39,6 @@ deku.category = ["main"]
 deku.settings = {
     limit: true
 }
-deku.description = "sticker bratvid"
 deku.loading = true
 
 module.exports = deku
