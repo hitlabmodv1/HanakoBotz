@@ -31,7 +31,7 @@ let rinokumura = {
         let isAudio = text.includes("--audio")
         let isVideo = text.includes("--video")
 
-        let videoUrl;
+        let video;
         if (text.startsWith("http")) {
             const getid = await dist.getVideoID(text);
             video = await yts({
