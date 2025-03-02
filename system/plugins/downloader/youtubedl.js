@@ -31,7 +31,7 @@ let rinokumura = {
         let isAudio = text.includes("--audio")
         let isVideo = text.includes("--video")
 
-        let video;
+        let videoUrl;
         if (text.startsWith("http")) {
             const getid = await dist.getVideoID(text);
             video = await yts({
@@ -87,6 +87,13 @@ ${metadata}
                 audio = ytdown.result;
             }
 
+            const getid = await dist.getVideoID(finalUrl);
+            const audiom = await yts({
+                videoId: getid,
+                hl: 'id',
+                gl: 'ID'
+            });
+
             const sizea = await Func.getSize(audio)
             if (sizea > 10 * 1024 * 1024) {
                 return sock.sendMessage(m.cht, {
@@ -94,7 +101,7 @@ ${metadata}
                         url: audio
                     },
                     mimetype: "audio/mpeg",
-                    fileName: `${audio.result.title}.mp3`,
+                    fileName: `${audiom.title}.mp3`,
                 }, {
                     quoted: m
                 });
@@ -110,6 +117,13 @@ ${metadata}
             }
         } else if (isVideo) {
             const savetubev = await Scraper.SaveTube.download(finalUrl, "720")
+
+            const getid = await dist.getVideoID(finalUrl);
+            const videom = await yts({
+                videoId: getid,
+                hl: 'id',
+                gl: 'ID'
+            });
 
             let video;
             if (savetubev.result.download) {
@@ -129,7 +143,7 @@ ${metadata}
                         url: video
                     },
                     mimetype: "video/mp4",
-                    fileName: `${video.result.title}.mp4`,
+                    fileName: `${videom.title}.mp4`,
                 }, {
                     quoted: m
                 });
@@ -139,7 +153,7 @@ ${metadata}
                         url: video
                     },
                     mimetype: "video/mp4",
-                    caption: `📁 YouTube Dl Video\n${metadata}`
+                    caption: `📁 Download YouTube\n${metadata}`
                 }, {
                     quoted: m
                 });
