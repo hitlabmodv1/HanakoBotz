@@ -37,14 +37,14 @@ let deku = async (m, {
 
         // edit pesan
         await sock.sendMessage(m.cht, {
-            text: `📁Download Sfile\n${Object.entries(mf).map(([a, b]) => `> *- ${a.capitalize()} :* ${b}`).join("\n")}\n\nFile Akan Di Kirim...`,
+            text: `📁Download MediaFire\n${Object.entries(mf).map(([a, b]) => `> *- ${a.capitalize()} :* ${b}`).join("\n")}\n\nFile Akan Di Kirim...`,
             edit: key
         }, {
             quoted: m
         })
 
         // Kirim Pesan File Mf
-        await sock.sendFile(m.cht, Buffer.from(fetcher), mf.filename, `📁Download Sfile\n${Object.entries(mf).map(([a, b]) => `> *- ${a.capitalize()} :* ${b}`).join("\n")}`, m)
+        await sock.sendFile(m.cht, Buffer.from(fetcher), mf.filename, `📁Download MediaFire\n${Object.entries(mf).map(([a, b]) => `> *- ${a.capitalize()} :* ${b}`).join("\n")}`, m)
 
         // end error
     } catch (err) {
