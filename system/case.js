@@ -35,148 +35,6 @@ module.exports = async (m,
     const quoted = m.isQuoted ? m.quoted : m;
     const args = quoted.args
 
-    let group = db.list().group[m.cht]
-    if (typeof group !== 'object') db.list().group[m.cht] = {}
-    if (group) {
-        if (!('antilink' in group)) group.antilink = false
-        if (!('antilinkgc' in group)) group.antilinkgc = false
-        if (!('antilinkch' in group)) group.antilinkch = false
-        if (!('antilinknumber' in group)) group.antilinknumber = false
-        if (!('antitoxic' in group)) group.antitoxic = false
-    } else {
-        db.list().group[m.cht] = {
-            antilink: false,
-            antilinkgc: false,
-            antilinkch: false,
-            antilinknumber: false,
-            antitoxic: false,
-        }
-    }
-
-    if (db.list().group[m.cht].antilink) {
-        if (m.body.match("http") && m.body.match("https")) {
-            bvl = `Admin Mah Boleh Kirim Link Lain`
-            if (m.isAdmin) return m.reply(bvl)
-            if (m.key.fromMe) return m.reply(bvl)
-            if (m.isOwner) return m.reply(bvl)
-            await sock.sendMessage(m.cht, {
-                delete: {
-                    remoteJid: m.cht,
-                    fromMe: false,
-                    id: m.key.id,
-                    participant: m.key.participant
-                }
-            })
-            sock.sendMessage(m.cht, {
-                text: `Woi Kontol Gausah Promosi Link Anjg Kek Punya Lu Aja Nih Grup😹`,
-                contextInfo: {
-                    mentionedJid: [m.sender]
-                }
-            }, {
-                quoted: m
-            })
-        }
-    }
-
-    if (db.list().group[m.cht].antilinkgc) {
-        if (m.body.match("chat.whatsapp.com")) {
-            bvl = `Admin Mah Boleh Kirim Link Lain`
-            if (m.isAdmin) return m.reply(bvl)
-            if (m.key.fromMe) return m.reply(bvl)
-            if (m.isOwner) return m.reply(bvl)
-            await sock.sendMessage(m.cht, {
-                delete: {
-                    remoteJid: m.cht,
-                    fromMe: false,
-                    id: m.key.id,
-                    participant: m.key.participant
-                }
-            })
-            sock.sendMessage(m.cht, {
-                text: `Woi Kontol Gausah Promosi Link Anjg Kek Punya Lu Aja Nih Grup😹`,
-                contextInfo: {
-                    mentionedJid: [m.sender]
-                }
-            }, {
-                quoted: m
-            })
-        }
-    }
-
-    if (db.list().group[m.cht].antilinkch) {
-        if (m.body.match("whatsapp.com")) {
-            bvl = `Admin Mah Boleh Kirim Link Lain`
-            if (m.isAdmin) return m.reply(bvl)
-            if (m.key.fromMe) return m.reply(bvl)
-            if (m.isOwner) return m.reply(bvl)
-            await sock.sendMessage(m.cht, {
-                delete: {
-                    remoteJid: m.cht,
-                    fromMe: false,
-                    id: m.key.id,
-                    participant: m.key.participant
-                }
-            })
-            sock.sendMessage(m.cht, {
-                text: `Woi Kontol Gausah Promosi Link Anjg Kek Punya Lu Aja Nih Grup😹`,
-                contextInfo: {
-                    mentionedJid: [m.sender]
-                }
-            }, {
-                quoted: m
-            })
-        }
-    }
-
-    if (db.list().group[m.cht].antilinknumber) {
-        if (m.body.match("wa.me")) {
-            bvl = `Admin Mah Boleh Kirim Link Lain`
-            if (m.isAdmin) return m.reply(bvl)
-            if (m.key.fromMe) return m.reply(bvl)
-            if (m.isOwner) return m.reply(bvl)
-            await sock.sendMessage(m.cht, {
-                delete: {
-                    remoteJid: m.cht,
-                    fromMe: false,
-                    id: m.key.id,
-                    participant: m.key.participant
-                }
-            })
-            sock.sendMessage(m.cht, {
-                text: `Woi Kontol Gausah Promosi Link Anjg Kek Punya Lu Aja Nih Grup😹`,
-                contextInfo: {
-                    mentionedJid: [m.sender]
-                }
-            }, {
-                quoted: m
-            })
-        }
-    }
-
-    if (db.list().group[m.cht].antitoxic) {
-        if (m.body.startsWith("Anj") || m.body.startsWith("Anjing") || m.body.startsWith("Tol") || m.body.startsWith("Tolol") || m.body.startsWith("Kon") || m.body.startsWith("Kontol")) {
-            bvl = `Admin Mah Boleh Kirim Toxic Lain`
-            if (m.isAdmin) return m.reply(bvl)
-            if (m.key.fromMe) return m.reply(bvl)
-            if (m.isOwner) return m.reply(bvl)
-            await sock.sendMessage(m.cht, {
-                delete: {
-                    remoteJid: m.cht,
-                    fromMe: false,
-                    id: m.key.id,
-                    participant: m.key.participant
-                }
-            })
-            sock.sendMessage(m.cht, {
-                text: `Toxic Amat Lo Rek😹`,
-                contextInfo: {
-                    mentionedJid: [m.sender]
-                }
-            }, {
-                quoted: m
-            })
-        }
-    }
     try {
     switch (m.command) {
     case "rvo":
@@ -250,110 +108,191 @@ module.exports = async (m,
         }
         break;
         case "antilink": {
-        if (!m.isGroup) return m.reply('maaf khusus group')
-           if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
-         const send = {
-            text: `*– 乂 Cara Penggunaan*
-> *\`0\`* Untuk mematikan fitur ${m.prefix + m.command} off
-> *\`1\`* Untuk menghidupkan fitur ${m.prefix + m.command} on`,
-            footer: config.name,
-            buttons: [{
-                buttonId: `${m.prefix + m.command} on`,
-                buttonText: {
-                    displayText: 'Nonaktifkan'
+         if (!m.isGroup) return m.reply('maaf khusus group')
+         if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
+         if (!text)
+            return sock.sendAliasMessage(m.cht, {
+                text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan Self
+> • 2. Mematikan Self`,
+                contextInfo: {
+                    mentionedJid: [m.sender],
+                    isForwarded: !0,
+                    forwardingScore: 127,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: config.saluran,
+                        newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                        serverMessageId: -1
+                    },
+                    externalAdReply: {
+                        title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                        body: Func.Styles(`${m.pushName}`),
+                        mediaType: 1,
+                        thumbnailUrl: pp,
+                        sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                    }
                 }
+            }, [{
+                alias: '1',
+                response: m.prefix + m.command + ' 1'
             }, {
-                buttonId: `${m.prefix + m.command} on`,
-                buttonText: {
-                    displayText: 'Aktifkan'
-                }
-            }],
-              viewOnce: true,
-              headerType: 6,
-           }
-            if (!text) return m.reply(send)
+                alias: '2',
+                response: m.prefix + m.command + ' 2'
+            }], m);
             const args = m.args
 
-            if (args[0] === 'off') {
-                db.list().group[m.cht].antilink = false
-                m.reply('Oke Fitur Antilink Udah Nonaktifkan')
-            } else if (args[0] === 'on') {
+            if (args[0] === '1') {
                 db.list().group[m.cht].antilink = true
-                m.reply('Oke Fitur Antilink Udah Aktif')
+                m.reply('Oke Fitur Antilink Udah Di Aktifkan')
+            } else if (args[0] === 'on') {
+                db.list().group[m.cht].antilink = false
+                m.reply('Oke Fitur Antilink Udah Di Nonaktifkan')
             } else {
-              m.reply(send)
+              sock.sendAliasMessage(m.cht, {
+                text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan Self
+> • 2. Mematikan Self`,
+                contextInfo: {
+                    mentionedJid: [m.sender],
+                    isForwarded: !0,
+                    forwardingScore: 127,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: config.saluran,
+                        newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                        serverMessageId: -1
+                    },
+                    externalAdReply: {
+                        title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                        body: Func.Styles(`${m.pushName}`),
+                        mediaType: 1,
+                        thumbnailUrl: pp,
+                        sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                    }
+                }
+            }, [{
+                alias: '1',
+                response: m.prefix + m.command + ' 1'
+            }, {
+                alias: '2',
+                response: m.prefix + m.command + ' 2'
+            }], m);
             }
         }
         break;
         case "antilinkgc": {
-        if (!m.isGroup) return m.reply('maaf khusus group')
-           if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
-         const send = {
-            text: `*– 乂 Cara Penggunaan*
-> *\`0\`* Untuk mematikan fitur ${m.prefix + m.command} off
-> *\`1\`* Untuk menghidupkan fitur ${m.prefix + m.command} on`,
-            footer: config.name,
-            buttons: [{
-                buttonId: `${m.prefix + m.command} on`,
-                buttonText: {
-                    displayText: 'Nonaktifkan'
+>        if (!m.isGroup) return m.reply('maaf khusus group')
+         if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
+         if (!text)
+            return sock.sendAliasMessage(m.cht, {
+                text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                contextInfo: {
+                    mentionedJid: [m.sender],
+                    isForwarded: !0,
+                    forwardingScore: 127,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: config.saluran,
+                        newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                        serverMessageId: -1
+                    },
+                    externalAdReply: {
+                        title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                        body: Func.Styles(`${m.pushName}`),
+                        mediaType: 1,
+                        thumbnailUrl: pp,
+                        sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                    }
                 }
+            }, [{
+                alias: '1',
+                response: m.prefix + m.command + ' 1'
             }, {
-                buttonId: `${m.prefix + m.command} on`,
-                buttonText: {
-                    displayText: 'Aktifkan'
-                }
-            }],
-              viewOnce: true,
-              headerType: 6,
-           }
-            if (!text) return m.reply(send)
+                alias: '2',
+                response: m.prefix + m.command + ' 2'
+            }], m);
             const args = m.args
 
-      if (args[0] === 'off') {
-        db.list().group[m.cht].antilinkgc = false
-        m.reply('Oke Fitur Antilink Udah Nonaktifkan')
-          } else if (args[0] === 'on') {
-           db.list().group[m.cht].antilinkgc = true
-           m.reply('Oke Fitur Antilink Udah Aktif')
+      if (args[0] === '1') {
+        db.list().group[m.cht].antilinkgc = on
+        m.reply('Oke Fitur Antilink Udah Aktif')
+          } else if (args[0] === '2') {
+           db.list().group[m.cht].antilinkgc = false
+           m.reply('Oke Fitur Antilink Udah Nonaktifkan')
           } else {
-              m.reply(send)
+             sock.sendAliasMessage(m.cht, {
+                text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                contextInfo: {
+                    mentionedJid: [m.sender],
+                    isForwarded: !0,
+                    forwardingScore: 127,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: config.saluran,
+                        newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                        serverMessageId: -1
+                    },
+                    externalAdReply: {
+                        title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                        body: Func.Styles(`${m.pushName}`),
+                        mediaType: 1,
+                        thumbnailUrl: pp,
+                        sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                    }
+                }
+            }, [{
+                alias: '1',
+                response: m.prefix + m.command + ' 1'
+            }, {
+                alias: '2',
+                response: m.prefix + m.command + ' 2'
+            }], m);
           }
         }
         break;
         case "antilinkch": {
         if (!m.isGroup) return m.reply('maaf khusus group')
            if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
-         const send = {
-            text: `*– 乂 Cara Penggunaan*
-> *\`0\`* Untuk mematikan fitur ${m.prefix + m.command} off
-> *\`1\`* Untuk menghidupkan fitur ${m.prefix + m.command} on`,
-            footer: config.name,
-            buttons: [{
-                buttonId: `${m.prefix + m.command} on`,
-                buttonText: {
-                    displayText: 'Nonaktifkan'
+         if (!text)
+            return sock.sendAliasMessage(m.cht, {
+                text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan Self
+> • 2. Mematikan Self`,
+                contextInfo: {
+                    mentionedJid: [m.sender],
+                    isForwarded: !0,
+                    forwardingScore: 127,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: config.saluran,
+                        newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                        serverMessageId: -1
+                    },
+                    externalAdReply: {
+                        title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                        body: Func.Styles(`${m.pushName}`),
+                        mediaType: 1,
+                        thumbnailUrl: pp,
+                        sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                    }
                 }
+            }, [{
+                alias: '1',
+                response: m.prefix + m.command + ' 1'
             }, {
-                buttonId: `${m.prefix + m.command} on`,
-                buttonText: {
-                    displayText: 'Aktifkan'
-                }
-            }],
-              viewOnce: true,
-              headerType: 6,
-           }
-            if (!text) return m.reply(send)
+                alias: '2',
+                response: m.prefix + m.command + ' 2'
+            }], m);
             const args = m.args
 
-            if (args[0] === 'off') {
-                db.list().group[m.cht].antilinkch = false
-                m.reply('Oke Fitur Antilinkch Udah Nonaktifkan')
-            } else if (args[0] === 'on') {
+            if (args[0] === '1') {
                 db.list().group[m.cht].antilinkch = true
                 m.reply('Oke Fitur Antilinkch Udah Aktif')
+            } else if (args[0] === '2') {
+                db.list().group[m.cht].antilinkch = falae
+                m.reply('Oke Fitur Antilinkch Udah Nonaktifkan')
             } else {
-              m.reply(send)
+              
             }
         }
         break;
@@ -382,14 +321,41 @@ module.exports = async (m,
             if (!text) return m.reply(send)
             const args = m.args
 
-            if (args[0] === 'off') {
-                db.list().group[m.cht].antitoxic = false
-                m.reply('Oke Fitur Antitoxic Udah Nonaktifkan')
-            } else if (args[0] === 'on') {
+            if (args[0] === '1') {
                 db.list().group[m.cht].antitoxic = true
                 m.reply('Oke Fitur Antitoxic Udah Aktif')
+            } else if (args[0] === '2') {
+                db.list().group[m.cht].antitoxic = false
+                m.reply('Oke Fitur Antitoxic Udah Nonaktifkan')
             } else {
-              m.reply(send)
+              return sock.sendAliasMessage(m.cht, {
+                text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan Self
+> • 2. Mematikan Self`,
+                contextInfo: {
+                    mentionedJid: [m.sender],
+                    isForwarded: !0,
+                    forwardingScore: 127,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: config.saluran,
+                        newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                        serverMessageId: -1
+                    },
+                    externalAdReply: {
+                        title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                        body: Func.Styles(`${m.pushName}`),
+                        mediaType: 1,
+                        thumbnailUrl: pp,
+                        sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                    }
+                }
+            }, [{
+                alias: '1',
+                response: m.prefix + m.command + ' 1'
+            }, {
+                alias: '2',
+                response: m.prefix + m.command + ' 2'
+            }], m);
             }
         }
         break;
