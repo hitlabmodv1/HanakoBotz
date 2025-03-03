@@ -1,22 +1,103 @@
-const { getUrlInfo } = require("baileys");
+async function events(m, { sock }) {
+    if (db.list().group[m.cht].antilink) {
+        if (m.body.match("http") && m.body.match("https")) {
+            bvl = `Admin Mah Boleh Kirim Link Lain`
+            if (m.isAdmin) return m.reply(bvl)
+            if (m.key.fromMe) return m.reply(bvl)
+            if (m.isOwner) return m.reply(bvl)
+            await sock.sendMessage(m.cht, {
+                delete: {
+                    remoteJid: m.cht,
+                    fromMe: false,
+                    id: m.key.id,
+                    participant: m.key.participant
+                }
+            })
+            sock.sendMessage(m.cht, {
+                text: `Woi Kontol Gausah Promosi Link Anjg Kek Punya Lu Aja Nih Grup😹`,
+                contextInfo: {
+                    mentionedJid: [m.sender]
+                }
+            }, {
+                quoted: m
+            })
+        }
+    }
 
-async function events(m, { sock, Func }) {
-  if (!m.isGroup) return;
-  let group = db.list().group[m.cht];
-  if (Func.isUrl(m.body) && /chat.whatsapp.com/.test(m.body)) {
-    if (!m.isBotAdmin) return;
-    let link = await getUrlInfo(
-      Func.isUrl(m.body).find((a) => a.includes("chat.whatsapp.com")),
-    );
-    let msg = `*– 乂 Link Group Terdeteksi !*\n`;
-    msg += `> *- Tag :* @${m.sender.split("@")[0]}\n`;
-    msg += `> *- Status :* ${m.isAdmin ? "admin group" : "member group"}`;
-    msg += `\n\n${m.isAdmin ? `> Kamu aman karena kamu admin dari group ${m.metadata.subject}` : `> Maaf Kami tidak memperbolehkan anda mengirim *${link.title}* cari group lain saja 😹`}`;
-    if (!m.isAdmin)
-      return m.reply(msg).then(() => {
-        m.reply({ delete: m.key });
-      });
-  }
+    if (db.list().group[m.cht].antilinkgc) {
+        if (m.body.match("chat.whatsapp.com")) {
+            bvl = `Admin Mah Boleh Kirim Link Lain`
+            if (m.isAdmin) return m.reply(bvl)
+            if (m.key.fromMe) return m.reply(bvl)
+            if (m.isOwner) return m.reply(bvl)
+            await sock.sendMessage(m.cht, {
+                delete: {
+                    remoteJid: m.cht,
+                    fromMe: false,
+                    id: m.key.id,
+                    participant: m.key.participant
+                }
+            })
+            sock.sendMessage(m.cht, {
+                text: `Woi Kontol Gausah Promosi Link Anjg Kek Punya Lu Aja Nih Grup😹`,
+                contextInfo: {
+                    mentionedJid: [m.sender]
+                }
+            }, {
+                quoted: m
+            })
+        }
+    }
+
+    if (db.list().group[m.cht].antilinkch) {
+        if (m.body.match("whatsapp.com")) {
+            bvl = `Admin Mah Boleh Kirim Link Lain`
+            if (m.isAdmin) return m.reply(bvl)
+            if (m.key.fromMe) return m.reply(bvl)
+            if (m.isOwner) return m.reply(bvl)
+            await sock.sendMessage(m.cht, {
+                delete: {
+                    remoteJid: m.cht,
+                    fromMe: false,
+                    id: m.key.id,
+                    participant: m.key.participant
+                }
+            })
+            sock.sendMessage(m.cht, {
+                text: `Woi Kontol Gausah Promosi Link Anjg Kek Punya Lu Aja Nih Grup😹`,
+                contextInfo: {
+                    mentionedJid: [m.sender]
+                }
+            }, {
+                quoted: m
+            })
+        }
+    }
+
+    if (db.list().group[m.cht].antilinknumber) {
+        if (m.body.match("wa.me")) {
+            bvl = `Admin Mah Boleh Kirim Link Lain`
+            if (m.isAdmin) return m.reply(bvl)
+            if (m.key.fromMe) return m.reply(bvl)
+            if (m.isOwner) return m.reply(bvl)
+            await sock.sendMessage(m.cht, {
+                delete: {
+                    remoteJid: m.cht,
+                    fromMe: false,
+                    id: m.key.id,
+                    participant: m.key.participant
+                }
+            })
+            sock.sendMessage(m.cht, {
+                text: `Woi Kontol Gausah Promosi Link Anjg Kek Punya Lu Aja Nih Grup😹`,
+                contextInfo: {
+                    mentionedJid: [m.sender]
+                }
+            }, {
+                quoted: m
+            })
+        }
+    }
 }
 
-module.exports = { events };
+module.exports = { events }
