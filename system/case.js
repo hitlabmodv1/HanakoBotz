@@ -16,6 +16,8 @@ const {
 const pkg = require("../lib/case");
 const Case = new pkg("./system/case.js");
 
+
+
 module.exports = async (m,
     sock,
     client,
@@ -110,6 +112,17 @@ module.exports = async (m,
             case "antilink": {
                 if (!m.isGroup) return m.reply('maaf khusus group')
                 if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
+
+                let pp;
+                try {
+                    pp = await sock.profilePictureUrl(m.sender, 'image')
+                } catch (e) {
+                    pp = "https://file.btch.rf.gd/file/dlhruelxlqwdjeq28ilr.jpg"
+                    try {
+                        pp = "https://files.catbox.moe/px1m46.jpg"
+                    } catch (e) {}
+                }
+
                 if (!text)
                     return sock.sendAliasMessage(m.cht, {
                         text: `ℹ️ Select Option Number
@@ -139,12 +152,13 @@ module.exports = async (m,
                         alias: '2',
                         response: m.prefix + m.command + ' 2'
                     }], m);
+
                 const args = m.args
 
                 if (args[0] === '1') {
                     db.list().group[m.cht].antilink = true
                     m.reply('Oke Fitur Antilink Udah Di Aktifkan')
-                } else if (args[0] === 'on') {
+                } else if (args[0] === '2') {
                     db.list().group[m.cht].antilink = false
                     m.reply('Oke Fitur Antilink Udah Di Nonaktifkan')
                 } else {
@@ -182,6 +196,16 @@ module.exports = async (m,
             case "antilinkgc": {
                 if (!m.isGroup) return m.reply('maaf khusus group')
                 if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
+                let pp;
+                try {
+                    pp = await sock.profilePictureUrl(m.sender, 'image')
+                } catch (e) {
+                    pp = "https://file.btch.rf.gd/file/dlhruelxlqwdjeq28ilr.jpg"
+                    try {
+                        pp = "https://files.catbox.moe/px1m46.jpg"
+                    } catch (e) {}
+                }
+
                 if (!text)
                     return sock.sendAliasMessage(m.cht, {
                         text: `ℹ️ Select Option Number
@@ -211,10 +235,9 @@ module.exports = async (m,
                         alias: '2',
                         response: m.prefix + m.command + ' 2'
                     }], m);
-                const args = m.args
 
                 if (args[0] === '1') {
-                    db.list().group[m.cht].antilinkgc = on
+                    db.list().group[m.cht].antilinkgc = false
                     m.reply('Oke Fitur Antilink Udah Aktif')
                 } else if (args[0] === '2') {
                     db.list().group[m.cht].antilinkgc = false
@@ -254,6 +277,16 @@ module.exports = async (m,
             case "antilinkch": {
                 if (!m.isGroup) return m.reply('maaf khusus group')
                 if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
+                let pp;
+                try {
+                    pp = await sock.profilePictureUrl(m.sender, 'image')
+                } catch (e) {
+                    pp = "https://file.btch.rf.gd/file/dlhruelxlqwdjeq28ilr.jpg"
+                    try {
+                        pp = "https://files.catbox.moe/px1m46.jpg"
+                    } catch (e) {}
+                }
+
                 if (!text)
                     return sock.sendAliasMessage(m.cht, {
                         text: `ℹ️ Select Option Number
@@ -283,79 +316,15 @@ module.exports = async (m,
                         alias: '2',
                         response: m.prefix + m.command + ' 2'
                     }], m);
-                const args = m.args
 
                 if (args[0] === '1') {
                     db.list().group[m.cht].antilinkch = true
                     m.reply('Oke Fitur Antilinkch Udah Aktif')
                 } else if (args[0] === '2') {
-                    db.list().group[m.cht].antilinkch = falae
+                    db.list().group[m.cht].antilinkch = false
                     m.reply('Oke Fitur Antilinkch Udah Nonaktifkan')
                 } else {
 
-                }
-            }
-            break;
-            case "antitoxic": {
-                if (!m.isGroup) return m.reply('maaf khusus group')
-                if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
-                const send = {
-                    text: `*– 乂 Cara Penggunaan*
-> *\`0\`* Untuk mematikan fitur ${m.prefix + m.command} off
-> *\`1\`* Untuk menghidupkan fitur ${m.prefix + m.command} on`,
-                    footer: config.name,
-                    buttons: [{
-                        buttonId: `${m.prefix + m.command} on`,
-                        buttonText: {
-                            displayText: 'Nonaktifkan'
-                        }
-                    }, {
-                        buttonId: `${m.prefix + m.command} on`,
-                        buttonText: {
-                            displayText: 'Aktifkan'
-                        }
-                    }],
-                    viewOnce: true,
-                    headerType: 6,
-                }
-                if (!text) return m.reply(send)
-                const args = m.args
-
-                if (args[0] === '1') {
-                    db.list().group[m.cht].antitoxic = true
-                    m.reply('Oke Fitur Antitoxic Udah Aktif')
-                } else if (args[0] === '2') {
-                    db.list().group[m.cht].antitoxic = false
-                    m.reply('Oke Fitur Antitoxic Udah Nonaktifkan')
-                } else {
-                    return sock.sendAliasMessage(m.cht, {
-                        text: `ℹ️ Select Option Number
-> • 1. Mengaktifkan ${m.command}
-> • 2. Mematikan ${m.command}`,
-                        contextInfo: {
-                            mentionedJid: [m.sender],
-                            isForwarded: !0,
-                            forwardingScore: 127,
-                            forwardedNewsletterMessageInfo: {
-                                newsletterJid: config.saluran,
-                                newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
-                                serverMessageId: -1
-                            },
-                            externalAdReply: {
-                                title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
-                                body: Func.Styles(`${m.pushName}`),
-                                mediaType: 1,
-                                thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
-                            }
-                        }
-                    }, [{
-                        alias: '1',
-                        response: m.prefix + m.command + ' 1'
-                    }, {
-                        alias: '2',
-                        response: m.prefix + m.command + ' 2'
-                    }], m);
                 }
             }
             break;
@@ -648,7 +617,7 @@ ${list.map((a) => Object.entries(a).map(([a, b]) => `> *🔸 ${a.capitalize()}* 
                 if (!jid[0].exists) continue;
                 let caption = "*– 乂 *Error Terdeteksi* 📉*\n"
                 caption += `> *-* Nama command : ${m.command}\n`
-                caption += `> *-* Lokasi File : ${name}`
+                caption += `> *-* Lokasi File : Case`
                 caption += `\n\n${Func.jsonFormat(error)}`
 
                 sock.sendMessage(owner + "@s.whatsapp.net", {
