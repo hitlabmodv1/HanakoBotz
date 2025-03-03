@@ -1,30 +1,53 @@
 module.exports = {
-  command: "self",
-  alias: [],
-  category: ["owner"],
-  settings: {
-    owner: true,
-  },
-  description: "Ubah bot menjadi mode senyap",
-  async run(m, { sock, text }) {
-  const args = m.args
-    if (!text)
-      return m.reply({
-        poll: {
-          name: `*– 乂 Cara Penggunaan*
-> *\`0\`* Untuk mematikan fitur self
-> *\`1\`* Untuk menghidupkan fitur self`,
-          values: [`${m.prefix}self 0`, `${m.prefix}self 1`],
-          selectableCount: 1,
-        },
-      });
-     if (args[0] === '0') {
-      db.list().settings.self = false
-      m.reply('Self Di Matikan')
-     } else if (args[0] === '1') {
-      db.list().settings.self = true
-      m.reply('Self Di Aktifkan')
+    command: "self",
+    alias: [],
+    category: ["owner"],
+    settings: {
+        owner: true,
+    },
+    description: "Ubah bot menjadi mode senyap",
+    async run(m, {
+        sock,
+        config,
+        Func,
+        text
+    }) {
+        const args = m.args
+        if (!text)
+            return sock.sendAliasMessage(m.cht, {
+                text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan Self
+> • 2. Mematikan Self`,
+                contextInfo: {
+                    mentionedJid: [m.sender],
+                    isForwarded: !0,
+                    forwardingScore: 127,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: config.saluran,
+                        newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                        serverMessageId: -1
+                    },
+                    externalAdReply: {
+                        title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                        body: Func.Styles(`${m.pushName}`),
+                        mediaType: 1,
+                        thumbnailUrl: pp,
+                        sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                    }
+                }
+            }, [{
+                alias: '1',
+                response: m.prefix + m.command + ' 1'
+            }, {
+                alias: '2',
+                response: m.prefix + m.command + ' 2'
+            }], m);
+        if (args[0] === '1') {
+            db.list().settings.self = true
+            m.reply('Self Di Aktifkan')
+        } else if (args[0] === '2') {
+            db.list().settings.self = false
+            m.reply('Self Di Matikan')
+        }
     }
-    
-  } 
 };
