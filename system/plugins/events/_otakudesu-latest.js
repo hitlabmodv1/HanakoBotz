@@ -27,7 +27,7 @@ async function events(m, {
         for (let [anime, waktu] of Object.entries(jadwalanime)) {
             if (timeNow === waktu) {
                 sock.autoanime[config.saluran2] = [
-                    scraper.list().otakudesu2.OtakudesuUpdate().then(async (a) => {
+                    scraper.list().otakudesu.ongoing().then(async (a) => {
                         await sock.sendMessage(config.saluran2, {
                             text: a.map((a) => Object.entries(a).map(([b, c]) => `> *- ${Func.Styles(`${b.capitalize()}`)} :* ${c}`).join("\n")).join("\n\n"),
                             contextInfo: {
