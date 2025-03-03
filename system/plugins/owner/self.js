@@ -12,6 +12,14 @@ module.exports = {
         Func,
         text
     }) {
+        try {
+            pp = await sock.profilePictureUrl(m.sender, 'image')
+        } catch (e) {
+            pp = "https://file.btch.rf.gd/file/dlhruelxlqwdjeq28ilr.jpg"
+            try {
+                pp = "https://files.catbox.moe/px1m46.jpg"
+            } catch (e) {}
+        }
         const args = m.args
         if (!text)
             return sock.sendAliasMessage(m.cht, {
