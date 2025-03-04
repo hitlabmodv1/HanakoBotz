@@ -1,27 +1,66 @@
-module.exports = {
-    command: "twitter", //- Nama fitur nya
-    alias: ["twdl", "tw", "xdl"], //- Short cut command
-    category: ["downloader"], //- Kategori Fitur 
-    settings: {
-       limit: true,
-     },
-    description: "Downloader Twitter", //- Penjelasan tentang fitur nya
-    loading: true, //- Ingin menambahkan loading messages ?
- async run(m, { sock, Func, Scraper, text, config }) {
+let deku = async (m, {
+    sock,
+    client,
+    conn,
+    DekuGanz,
+    Func,
+    Scraper,
+    text,
+    config
+}) => {
 
-if (!text.includes('twitter') && !text.includes('x.com')) throw "Link Contoh .twitter <link>";
-const result = await Scraper.twitter.dl(text)
+    if (!/x.com/.test(text)) throw '⚠️Mana Link Twitter Nya !';
 
-let deku = `*[ Downloader - Twitter ]*\n`
-deku += `> title: ${result.title}\n`
-deku += `> duration: ${result.duration}\n`
-deku += `> twitterId: ${result.twitterId}\n`
-deku += `*Lagi Di Proses Di Tunggu Wkwk*`
+    // Gagal get video/image
+    const tw = await Scraper.twitterdl2(text);
+    if (!tw && !tw.images.length > 0 && tw.videos.length > 0) return m.reply('Error Kabeh Gada Link Vt Nya😂');
 
-await m.reply({ image: { url: result.videoThumbnail }, caption: deku })
+    // image
+    if (tw.type === "image") {
+        const ftmap = tw.images.map(x => x.download);
+        let medias = [];
+        for (let i of ftmap) {
+            medias.push({
+                type: 'image',
+                data: {
+                    url: i
+                }
+            });
+        }
 
-await m.reply({ video: { url: result.downloads[0].url }, caption: 'Done' })
+        sock.sendAlbumMessage(m.cht, medias, {
+            caption: '✅ Done Wak😄',
+            quoted: m
+        });
+    } else
 
-await m.reply({ audio: { url: result.downloads[0].url }, mimetype: 'audio/mpeg', fileName: result.title })
+        // video
+        if (tw.type === "video") {
+            const x = tw.videos[0].download
+            await sock.sendMessage(m.cht, {
+                video: {
+                    url: x
+                },
+                caption: '> ✅ Done Wok'
+            }, {
+                quoted: m
+            })
+        };
 }
+
+deku.command = "twitter"
+deku.alias = [
+    "tw",
+    "twdl",
+    "xdl",
+    "x"
+]
+deku.category = [
+    "downloader"
+]
+deku.settings = {
+    limit: true
 }
+deku.loading = true
+
+module.exports = deku
