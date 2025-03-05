@@ -1,5 +1,6 @@
 async function events(m, {
-    sock
+    sock,
+    Func
 }) {
     if (db.list().user[m.sender].afk.afkTime > -1) {
         let is_user = db.list().user[m.sender].afk
