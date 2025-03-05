@@ -372,7 +372,7 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
         sock.ev.on("groups.update", async (updates) => {
             for (const update of updates) {
                 const id = update.id;
-                const metadata = await store.groupMetadata(id);
+                const metadata = await store.groupMetadata[id];
                 groupCache.set(id, metadata);
                 if (store.groupMetadata[id]) {
                     store.groupMetadata[id] = {
