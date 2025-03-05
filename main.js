@@ -46,10 +46,10 @@
                 quoted: m.quoted,
             },
         );
-        messages.key.fromMe = areJidsSameUser(m.sender, sock.user.id);
+        messages.key.fromMe = areJidsSameUser(participant, sock.user.id);
         messages.key.id = m.key.id;
         messages.pushName = m.pushName;
-        if (m.isGroup) messages.participant = m.sender;
+        if (m.isGroup) messages.participant = participant;
         let msg = {
             ...chatUpdate,
             messages: [proto.WebMessageInfo.fromObject(messages)],
@@ -259,8 +259,6 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                 let groupMetadata = await sock.groupMetadata(id);
                 let totalMembers = groupMetadata.participants.length;
 
-                if (!db.list().group[id].action || (db.list().settings.self && db.list().settings.mutr && db.list().group[id].action)) return;
-
                 // Update metadata peserta grup
                 const metadata = store.groupMetadata[id] || {
                     participants: []
@@ -279,10 +277,6 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                             participant.admin = action === "promote" ? "admin" : null;
                         }
                     }
-                } else if (action === "remove") {
-                    metadata.participants = metadata.participants.filter(
-                        (p) => !participants.includes(jidNormalizedUser(p.id))
-                    );
                 }
 
                 for (let participant of participants) {
@@ -291,33 +285,51 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                             image: {
                                 url: "https://files.catbox.moe/j20zmx.jpg"
                             },
-                            caption: `Yokoso! (Selamat datang!) Untuk member baru! bernama @${m.sender.split("@")[0]} ${config.namebot}-Kun senang sekali bisa bertemu denganmu! *🤩*\nJan Lupa Baca Rules Ya Membaru`,
+                            caption: `Yokoso! (Selamat datang!) Untuk member baru! bernama @${participant.split("@")[0]} ${config.name}-Kun senang sekali bisa bertemu denganmu! *🤩*\nJan Lupa Baca Rules Ya Membaru`,
+                            footer: config.name,
+                            buttons: [{
+                                buttonId: ".menu",
+                                buttonText: {
+                                    displayText: 'Welcome'
+                                }
+                            }],
+                            viewOnce: true,
+                            headerType: 6,
                             contextInfo: {
-                                mentionedJid: [m.sender],
+                                mentionedJid: [participant],
                                 isForwarded: !0,
                                 forwardingScore: 127,
                                 forwardedNewsletterMessageInfo: {
                                     newsletterJid: config.saluran,
                                     newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
                                     serverMessageId: -1
-                                }
+                                },
                             }
                         });
                     } else if (action === "remove") {
                         sock.sendMessage(id, {
                             image: {
-                                url: "https://files.catbox.moe/j20zmx.jpg"
+                                url: "https://files.catbox.moe/mk2oik.jpg"
                             },
-                            caption: `Yokoso! (Selamat datang!) Untuk member baru! bernama @${m.sender.split("@")[0]} ${config.namebot}-Kun senang sekali bisa bertemu denganmu! *🤩*\nJan Lupa Baca Rules Ya Membaru`,
+                            caption: `Sayonara, @${participant.split("@")[0]}-kun! Mata ne! :)`,
+                            footer: config.name,
+                            buttons: [{
+                                buttonId: ".menu",
+                                buttonText: {
+                                    displayText: 'Goodbye'
+                                }
+                            }],
+                            viewOnce: true,
+                            headerType: 6,
                             contextInfo: {
-                                mentionedJid: [m.sender],
+                                mentionedJid: [participant],
                                 isForwarded: !0,
                                 forwardingScore: 127,
                                 forwardedNewsletterMessageInfo: {
                                     newsletterJid: config.saluran,
                                     newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
                                     serverMessageId: -1
-                                }
+                                },
                             }
                         });
                     }
@@ -356,6 +368,20 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                 conversation: "HanakoBotz",
             };
         }
+
+        sock.ev.on("groups.update", async (updates) => {
+            for (const update of updates) {
+                const id = update.id;
+                const metadata = await store.groupMetadata(id);
+                groupCache.set(id, metadata);
+                if (store.groupMetadata[id]) {
+                    store.groupMetadata[id] = {
+                        ...(store.groupMetadata[id] || {}),
+                        ...(update || {}),
+                    };
+                }
+            }
+        });
 
         sock.ev.on("messages.upsert", async (cht) => {
             let {
