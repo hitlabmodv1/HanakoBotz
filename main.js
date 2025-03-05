@@ -387,6 +387,10 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
             let {
                 id
             } = cht;
+            let again = new Set()
+            // Jika ada pesan masuk
+            if (again.has(id)) return
+            again.add(id)
             if (cht.messages.length === 0) return;
             const chatUpdate = cht.messages[0];
             if (!chatUpdate.message) return;
@@ -423,7 +427,6 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                 }
             }
         });
-
         return sock;
     }
     system();
