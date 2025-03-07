@@ -1,43 +1,27 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
+const gis = require("g-i-s")
 
 class Pinterest {
     search = async function(query) {
-        const queryParams = {
-                source_url: "/search/pins/?q=" + encodeURIComponent(query),
-                data: JSON.stringify({
-                    options: {
-                        isPrefetch: !1,
-                        query: query,
-                        scope: "pins",
-                        no_fetch_context_on_resource: !1,
-                    },
-                    context: {},
-                }),
-                _: Date.now(),
-            },
-            url = new URL("https://www.pinterest.com/resource/BaseSearchResource/get/");
-        Object.entries(queryParams).forEach((entry) =>
-            url.searchParams.set(entry[0], entry[1]),
-        );
-        try {
-            const json = await (await fetch(url.toString())).json();
-            return json.resource_response.data.results
-                .filter((a) => a.title !== "")
-                .map((a) => ({
-                    title: a.title,
-                    id: a.id,
-                    create_at: require("moment-timezone")(
-                        new Date(a.created_at) * 1,
-                    ).format("DD/MM/YYYY HH:mm:ss"),
-                    author: a.pinner.username,
-                    followers: a.pinner.follower_count.toLocaleString(),
-                    source: "https://www.pinterest.com/pin/" + a.id,
-                    image: a.images["orig"].url,
-                }));
-        } catch (error) {
-            return console.error("Error mengambil data:", error), [];
-        }
+        return new Promise((resolve, reject) => {
+            let err = {
+                status: 404,
+                message: "Terjadi kesalahan"
+            }
+            gis({
+                searchTerm: query + ' site:id.pinterest.com',
+            }, (er, res) => {
+                if (er) return err
+                let hasil = {
+                    status: 200,
+                    creator: 'chibot',
+                    result: []
+                }
+                res.forEach(x => hasil.result.push(x.url))
+                resolve(hasil)
+            })
+        })
     }
     download = async function(url) {
         try {
@@ -81,8 +65,7 @@ class Pinterest {
                         url: result.creator.url,
                     },
                     keyword: result.keywords ?
-                        result.keywords.split(", ").map((keyword) => keyword.trim()) :
-                        [],
+                        result.keywords.split(", ").map((keyword) => keyword.trim()) : [],
                     download: result.contentUrl,
                 };
             } else {
