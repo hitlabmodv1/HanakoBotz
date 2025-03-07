@@ -1,28 +1,145 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
-const gis = require("g-i-s")
+
+const base = "https://www.pinterest.com";
+const search = "/resource/BaseSearchResource/get/";
+
+const headers = {
+    'accept': 'application/json, text/javascript, */*, q=0.01',
+    'referer': 'https://www.pinterest.com/',
+    'user-agent': 'Postify/1.0.0',
+    'x-app-version': 'a9522f',
+    'x-pinterest-appstate': 'active',
+    'x-pinterest-pws-handler': 'www/[username]/[slug].js',
+    'x-pinterest-source-url': '/search/pins/?rs=typed&q=kucing%20anggora/',
+    'x-requested-with': 'XMLHttpRequest'
+}
+
+async function getCookies() {
+    try {
+        const response = await axios.get(base);
+        const setHeaders = response.headers['set-cookie'];
+        if (setHeaders) {
+            const cookies = setHeaders.map(cookieString => {
+                const cp = cookieString.split(';');
+                const cv = cp[0].trim();
+                return cv;
+            });
+            return cookies.join('; ');
+        }
+        return null;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
 
 class Pinterest {
     search = async function(query) {
-        return new Promise((resolve, reject) => {
-            let err = {
-                status: 404,
-                message: "Terjadi kesalahan"
-            }
-            gis({
-                searchTerm: query + ' site:id.pinterest.com',
-            }, (er, res) => {
-                if (er) return err
-                let hasil = {
-                    status: 200,
-                    creator: 'chibot',
-                    result: []
+        if (!query) {
+            return {
+                status: false,
+                code: 400,
+                result: {
+                    message: "Bree, lu ngetik apa sih? Query nya literally kosong begini? Emangnya gua punya third eye buat nebak apa? Minimal effort lah ya 🙄✋"
                 }
-                res.forEach(x => hasil.result.push(x.url))
-                resolve(hasil)
-            })
-        })
+            };
+        }
+
+        try {
+            const cookies = await getCookies();
+            if (!cookies) {
+                return {
+                    status: false,
+                    code: 400,
+                    result: {
+                        message: "Cookies nya failed retrieve nih. Nanti lagi ae yak.."
+                    }
+                };
+            }
+
+            const params = {
+                source_url: `/search/pins/?q=${query}`,
+                data: JSON.stringify({
+                    options: {
+                        isPrefetch: false,
+                        query: query,
+                        scope: "pins",
+                        bookmarks: [""],
+                        no_fetch_context_on_resource: false,
+                        page_size: 10
+                    },
+                    context: {}
+                }),
+                _: Date.now()
+            };
+
+            const {
+                data
+            } = await axios.get(`${base}${search}`, {
+                headers: {
+                    ...headers,
+                    'cookie': cookies
+                },
+                params: params
+            });
+
+            const container = [];
+            const results = data.resource_response.data.results.filter((v) => v.images?.orig);
+
+            results.forEach((result) => {
+                container.push({
+                    id: result.id,
+                    title: result.title || "",
+                    description: result.description,
+                    pin_url: `https://pinterest.com/pin/${result.id}`,
+                    media: {
+                        images: {
+                            orig: result.images.orig,
+                            small: result.images['236x'],
+                            medium: result.images['474x'],
+                            large: result.images['736x']
+                        },
+                        video: result.videos ? {
+                            video_list: result.videos.video_list,
+                            duration: result.videos.duration,
+                            video_url: result.videos.video_url
+                        } : null
+                    },
+                    uploader: {
+                        username: result.pinner.username,
+                        full_name: result.pinner.full_name,
+                        profile_url: `https://pinterest.com/${result.pinner.username}`
+                    }
+                });
+            });
+
+            if (container.length === 0) {
+                return {
+                    status: false,
+                    code: 404,
+                    result: {
+                        message: `Anjir bree, literally gua kagak nemu apa2 buat input "${query}". Like seriously, searching skill lu perlu diimprove deh. No offense yak, but try harder gitu 🤪`
+                    }
+                };
+            }
+
+            return {
+                pins: container
+            };
+
+        } catch (error) {
+            return {
+                status: false,
+                code: error.response?.status || 500,
+                result: {
+                    message: "Servernya lagi chaos bree! Lu ganggu mulu sih, Servernya butuh break. Try again later yak 😂",
+                    error: error
+                }
+            };
+        }
     }
+
     download = async function(url) {
         try {
             let response = await axios
