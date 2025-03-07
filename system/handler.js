@@ -2,29 +2,33 @@ const config = require("../settings.js");
 const Func = require("../lib/function.js");
 const serialize = require("../lib/serialize.js");
 const Uploader = require("../lib/uploader.js");
-const pkg = require("baileys");
+const {
+   jidNormalizedUser,
+   WAMessageStubType
+} = require("baileys");
 const moment = require("moment-timezone");
 const cron = require("node-cron");
+const chalk = require("chalk");
 
 module.exports = async (m, sock, store) => {
-  const client = conn = DekuGanz = sock
-  if (m.key.jid === "status@broadcast") {
-    await sock.readMessages([m.key]);
-    await sock.sendMessage(
-      m.key.jid,
-      { react: { text: "📸", key: m.key } },
-      { statusJidList: Object.keys(store.contact) },
-    );
-    console.log(
-      chalk.green.bold("– 📸 *Membaca Status WhatsApp dari :* " + m.pushName),
-    );
-    return;
-  }
+  const client = conn = DekuGanz = sock;
+  try {
+     require("../lib/system.js")(m, sock, store);
+  } catch (e) {
+     console.log(e);
+  };
 
   await db.main(m);
   if (m.isBot) return;
+  if (db.list().settings.online) sock.readMessages([m.key]);  
   if (db.list().settings.self && !m.isOwner) return;
-  if (m.isGroup && db.list().group[m.cht]?.mute && !m.isAdmin && !m.isOwner) return;
+  if (m.isGroup && db.list().group[m.cht]?.mute && !m.isOwner) return;
+
+  if (m.isOwner) {
+      db.list().user[m.sender].premium = { status: true, expired: 99999 };
+      db.list().user[m.sender].limit = 100;
+  }
+
   if (Object.keys(store.groupMetadata).length === 0) {
     store.groupMetadata = await sock.groupFetchAllParticipating();
   }
@@ -37,6 +41,14 @@ module.exports = async (m, sock, store) => {
   const usedPrefix = config.prefix.includes(m.prefix);
   const text = m.text;
   const isCmd = m.prefix && usedPrefix;
+
+  if (isPrems) {
+      db.list().user[m.sender].limit = 100;
+  }
+
+  if (isCmd) {
+      db.list().user[m.sender].rpg.exp += Math.floor(Math.random() * 20) + 1;
+  }
 
   if (isCmd) {
     require("./case.js")(m,
@@ -56,16 +68,7 @@ module.exports = async (m, sock, store) => {
       isBanned,
     );
   }
-  
-  cron.schedule("* * * * *", () => {
-    let user = Object.keys(db.list().user);
-    let time = moment.tz(config.tz).format("HH:mm");
-    if (db.list().settings.resetlimit == time) {
-      for (let i of user) {
-        db.list().user[i].limit = 100;
-      }
-    }
-  });
+
   for (let name in pg.plugins) {
     let plugin;
     if (typeof pg.plugins[name].run === "function") {
@@ -114,8 +117,14 @@ module.exports = async (m, sock, store) => {
           if (plugin.settings.owner && !m.isOwner) {
             return m.reply(config.messages.owner);
           }
+          if (plugin.settings.premium && !isPrems) {
+            return m.reply(config.messages.premium);
+          }          
           if (plugin.settings.group && !m.isGroup) {
             return m.reply(config.messages.group);
+          }
+          if (plugin.settings.private && m.isGroup) {
+            return m.reply(config.messages.private);
           }
           if (plugin.settings.admin && !isAdmin) {
             return m.reply(config.messages.admin);
@@ -143,15 +152,26 @@ module.exports = async (m, sock, store) => {
           isBanned,
         })
           .then(async (a) => {
-            if (plugin?.settings?.limit && !isPrems && !m.isOwner) {
-              db.list().user[m.sender].limit -= 1;
-              m.reply(
-                `${Func.Styles(`*( ${config.name} )* Limit Anda Berkurang 1 \n\n> *( ${config.name} )* Kalau Limit Nya Abis Nunggu 24jam`)}`,
-              );
-            }
-          });
-      }
-           
+             if (plugin?.settings?.limit && !isPrems && !m.isOwner) {
+                let user = db.list().user[m.sender];
+                if (user.limit > plugin.settings.limit) {
+                   user.limit -= plugin.settings.limit;
+                   m.reply(
+                      `💡 *Informasi:* Kamu telah menggunakan fitur limit\n> *- Limit kamu saat ini:* ${user.limit} tersisa ☘️\n> *- Catatan:* Limit akan direset pada pukul 02:00 WIB setiap harinya.`
+                   );
+                   if (user.limit === plugin.settings.limit) {
+                      m.reply(
+                         `⚠️ *Peringatan:* Limit kamu sudah habis! ❌\nSilakan tunggu hingga reset pukul 02:00 WIB atau beli limit tambahan.`
+                      );
+                   }
+                } else {
+                   m.reply(
+                      `⚠️ *Peringatan:* Limit kamu sudah habis! ❌\nSilakan tunggu hingga reset pukul 02:00 WIB atau beli limit tambahan.`
+                  );
+                }
+             }
+          })
+        }
     } catch (error) {
       if (error.name) {
         for (let owner of config.owner) {
@@ -169,10 +189,6 @@ module.exports = async (m, sock, store) => {
         m.reply("*– 乂 *Error Terdeteksi* 📉*\n !*\n> Command gagal dijalankan karena terjadi error\n> Laporan telah terkirim kepada owner kami dan akan segera di perbaiki !");
       } else {
         m.reply(Func.jsonFormat(error));
-      }
-    } finally {
-      if (db.list().settings.online) {
-        await sock.readMessages([m.key]);
       }
     }
   }
