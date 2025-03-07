@@ -31,8 +31,8 @@ let deku = async (m, {
                         query: text
                     }
                 }).then(a => a.data)
-
-                let pickget = pinsrch.data[Math.floor(Math.random() * pinsrch.data.length)]
+                let pickget = a.pins[Math.floor(Math.random() * a.pins.length)];
+                if (!pinsrch && !pinsrch.length > 0) throw 'maaf yg anda search tidak di temukan😹';
                 result = pickget.images_url
             } catch (err) {}
         }
