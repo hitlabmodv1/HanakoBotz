@@ -237,6 +237,7 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
             }
         });
 
+       /*
         sock.ev.on("groups.update", (updates) => {
             for (const update of updates) {
                 const id = update.id;
@@ -248,6 +249,7 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                 }
             }
         });
+      */
 
         sock.ev.on("group-participants.update", async (groupUpdate) => {
             try {
