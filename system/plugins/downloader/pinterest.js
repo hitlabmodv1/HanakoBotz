@@ -1,4 +1,4 @@
-const axios = require('axios')
+const axios = require('axios');
 
 let deku = async (m, {
     sock,
@@ -19,20 +19,30 @@ let deku = async (m, {
 
         sock.sendFile(m.cht, data.download, null, cap, m);
     } else {
-        const pinsrch = await axios.get('https://api.siputzx.my.id/api/s/pinterest', {
-            params: {
-                query: text
-            }
-        }).then(a => a.data)
+        try {
+            const a = await Scraper.pinterest.search(text);
+            if (!a && !a.length > 0) throw 'maaf yg anda search tidak di temukan😹';
+            let pickget = a.pins[Math.floor(Math.random() * a.pins.length)];
+            result = pickget.media.images.orig.url
+        } catch (err) {
+            try {
+                const pinsrch = await axios.get('https://api.siputzx.my.id/api/s/pinterest', {
+                    params: {
+                        query: text
+                    }
+                }).then(a => a.data)
 
-        let pickget = pinsrch.data[Math.floor(Math.random() * pinsrch.data.length)]
+                let pickget = pinsrch.data[Math.floor(Math.random() * pinsrch.data.length)]
+                result = pickget.images_url
+            } catch (err) {}
+        }
 
-        let cap = `🔍 Search [ ${text} ]`
-        cap += `\n> Kalau Kamu Salah Dan Ga Suka\n> Ketik \`[ Next / Lanjut ]\``
+        let cap = `🔍 Search [ ${text} ]`;
+        cap += `\n> Kalau Kamu Salah Dan Ga Suka\n> Ketik \`[ Next / Lanjut ]\``;
 
         await sock.sendAliasMessage(m.cht, {
             image: {
-                url: pickget.images_url
+                url: result
             },
             caption: cap
         }, [{
@@ -45,13 +55,12 @@ let deku = async (m, {
     }
 }
 
-deku.command = "pinterest"
-deku.alias = ["pin", "pindl"]
-deku.category = ["downloader", "tools"]
+deku.command = "pinterest";
+deku.alias = ["pin", "pindl"];
+deku.category = ["downloader", "tools"];
 deku.settings = {
     limit: true
-}
-deku.description = "Mencari/download media dari pinterest !"
-deku.loading = true
+};
+deku.loading = true;
 
-module.exports = deku
+module.exports = deku;
