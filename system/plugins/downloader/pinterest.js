@@ -1,3 +1,5 @@
+const axios = require('axios')
+
 let deku = async (m, {
     sock,
     Func,
@@ -17,16 +19,20 @@ let deku = async (m, {
 
         sock.sendFile(m.cht, data.download, null, cap, m);
     } else {
-        const pinsrch = await Scraper.pinterest.search(text)
+        const pinsrch = await axios.get('https://api.siputzx.my.id/api/s/pinterest', {
+            params: {
+                query: text
+            }
+        }).then(a => a.data)
 
-        let pickget = pinsrch.result[Math.floor(Math.random() * pinsrch.result.length)]
+        let pickget = pinsrch.data[Math.floor(Math.random() * pinsrch.data.length)]
 
         let cap = `🔍 Search [ ${text} ]`
         cap += `\n> Kalau Kamu Salah Dan Ga Suka\n> Ketik \`[ Next / Lanjut ]\``
 
         await sock.sendAliasMessage(m.cht, {
             image: {
-                url: pickget
+                url: pickget.images_url
             },
             caption: cap
         }, [{
