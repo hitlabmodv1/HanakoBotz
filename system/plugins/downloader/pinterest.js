@@ -19,17 +19,14 @@ let deku = async (m, {
     } else {
         const pinsrch = await Scraper.pinterest.search(text)
 
-        let pickget = pinsrch[Math.floor(Math.random() * pinsrch.length)]
+        let pickget = pinsrch.result[Math.floor(Math.random() * pinsrch.result.length)]
 
-        let cap = `々- \`[ Search - Pinterest ]\` - 々\n\n`
-        cap += Object.entries(pickget)
-            .map(([a, b]) => `> 々- ${a.capitalize()} : ${b}`)
-            .join("\n")
-        cap += `\n\n> Kalau Kamu Salah Dan Ga Suka\n> Ketik \`[ Next / Lanjut ]\``
+        let cap = `🔍 Search [ ${text} ]`
+        cap += `\n> Kalau Kamu Salah Dan Ga Suka\n> Ketik \`[ Next / Lanjut ]\``
 
         await sock.sendAliasMessage(m.cht, {
             image: {
-                url: pickget.image
+                url: pickget
             },
             caption: cap
         }, [{
