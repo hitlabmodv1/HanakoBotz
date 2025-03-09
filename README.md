@@ -7,6 +7,22 @@
 
 ```> Simple WhatsApp bot Using Library Baileys```
 
+:--------         | :-----------: | :--------: | :--------: | :------: | :-------------: |
+| plugins          | ✅            | ✅         | ✅         | ✅         | ✅              |
+| case           | ✅            | ✅         | ✅         | ✅         | ✅              |
+| scraper       | ✅            | ✅         | ✅         | ✅         | ✅              |
+| reset limit             | ✅            | ✅         | ✅         | ✅         | ✅              |
+| auto clearsesi            | ➖            | ➖         | ➖         | ➖         | ➖              |
+| panel         | ✅            | ✅         | ✅         | ➖         | ➖              |
+| termux          | ✅            | ➖         | ✅         | ➖         | ➖              |
+| main             | ✅            | ✅         | ✅         | ✅         | ✅              |
+
+| emoji   | meaning                 |
+| :-----: | :---------------------- |
+| ✅      | supported               |
+| ➖      | unreasonable/impossible |
+| ❌      | not supported           |
+
 ```javascript
 {
   message: Message { conversation: '>_ Welcome to Hanako' },
