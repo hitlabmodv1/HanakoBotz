@@ -7,29 +7,14 @@
 
 ```> Simple WhatsApp bot Using Library Baileys```
 
-| service           | video + audio | only audio | only video | metadata | rich file names |
-| :--------         | :-----------: | :--------: | :--------: | :------: | :-------------: |
-| plugin          | ✅            | ✅         | ✅         | ➖         | ➖              |
-| case          | ✅            | ✅         | ✅         | ➖         | ➖              |
-| scraper      | ✅            | ✅         | ✅         | ✅         | ✅              |
-| main         | ✅            | ✅         | ✅         | ➖         | ➖              |
-| panel          | ✅            | ✅         | ✅         | ➖         | ➖              |
-| termux              | ✅            | ❌         | ✅         | ✅         | ➖              |
-| ok.ru             | ✅            | ❌         | ✅         | ✅         | ✅              |
-| pinterest         | ✅            | ✅         | ✅         | ➖         | ➖              |
-| reddit            | ✅            | ✅         | ✅         | ❌         | ❌              |
-| rutube            | ✅            | ✅         | ✅         | ✅         | ✅              |
-| snapchat          | ✅            | ✅         | ✅         | ➖         | ➖              |
-| soundcloud        | ➖            | ✅         | ➖         | ✅         | ✅              |
-| streamable        | ✅            | ✅         | ✅         | ➖         | ➖              |
-| tiktok            | ✅            | ✅         | ✅         | ❌         | ❌              |
-| tumblr            | ✅            | ✅         | ✅         | ➖         | ➖              |
-| twitch clips      | ✅            | ✅         | ✅         | ✅         | ✅              |
-| twitter/x         | ✅            | ✅         | ✅         | ➖         | ➖              |
-| vimeo             | ✅            | ✅         | ✅         | ✅         | ✅              |
-| vk videos & clips | ✅            | ❌         | ✅         | ✅         | ✅              |
-| xiaohongshu       | ✅            | ✅         | ✅         | ➖         | ➖              |
-| youtube           | ✅            | ✅         | ✅         | ✅         | ✅              |
+| service           | support | file |
+| :--------         | :-----------: | :--------: | :--------:
+| plugin          | ❌            | ✅         | 
+| case          | ❌            | ✅         | 
+| scraper      | ❌            | ✅         | 
+| main         | ❌            | ✅         | 
+| panel          | ✅            | ❌         | 
+| termux              | ✅            | ❌         | 
 
 | emoji   | meaning                 |
 | :-----: | :---------------------- |
