@@ -1,4 +1,4 @@
-const fs = require('node:fs')
+const axios = require("axios");
 const pkg = require(process.cwd() + "/package.json")
 
 module.exports = {
@@ -13,51 +13,31 @@ module.exports = {
         config
     }) {
 
-        let tekssc = Func.Styles(`⏤͟͟͞͞╳── *[ sᴄ ${config.name} ${pkg.version} ]* ── .々─ᯤ
-│    =〆 ᴄᴀsᴇ x ᴘʟᴜɢɪɴ
-│    =〆 ʙᴀsᴇ ᴀxᴇʟ-ɴᴇᴛᴡᴏʀᴋ
-│    =〆 ғɪᴛᴜʀ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ ᴀᴅᴀ
-│    =〆 ғɪᴛᴜʀ sᴇᴀʀᴄʜ ᴀᴅᴀ
-│    =〆 ғɪᴛᴜʀ ᴀɴɪᴍᴇ ᴀᴅᴀ
-│    =〆 ᴅʟʟ ᴀᴅᴀ
-│    =〆 ʀᴇᴍᴀᴋᴇ: ᴅᴇᴋᴜɢᴀɴᴢ
-│    =〆 Script:\n`)
-        tekssc += `│    =〆 https://github.com/LeooxzyDekuu/HanakoBotz
-│    =〆 ᴄʜ:
-│    =〆 https://whatsapp.com/channel/0029VadFS3r89inc7Jjus03W
-⏤͟͟͞͞╳────────── .✦`
+        let data = await axios
+            .get("https://api.github.com/repos/LeooxzyDekuu/HanakoBotz")
+            .then((a) => a.data);
 
-        m.reply({
-            location: {
-                degreesLatitude: 0,
-                degreesLongitude: 0,
-                name: Func.Styles(`${config.name}`),
-                address: Func.Styles(`© ${config.name} 2021 - 2024`),
-                isLive: true,
-                jpegThumbnail: await sock.resize(fs.readFileSync('./image/Hanako-replydoc.jpg'), 300, 170)
-            },
-            caption: "",
-            footer: config.name,
-            title: tekssc,
-            subtitle: "",
-            contextInfo: {
-                mentionedJid: [m.sender],
-                isForwarded: !0,
-                forwardingScore: 127,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: config.saluran,
-                    newsletterName: config.name,
-                    serverMessageId: -1
-                }
-            },
-            interactiveButtons: [{
-                name: "cta_url",
-                buttonParamsJson: JSON.stringify({
-                    display_text: Func.Styles("Link Script 📙"),
-                    url: "https://github.com/LeooxzyDekuu/HanakoBotz",
-                    merchant_url: "https://github.com/LeooxzyDekuu/HanakoBotz"
-                })
-            }]
-        })
-    },
+        let cap = "*– 乂 Informasi - Script Bot*\n\n";
+        cap += `> 🧩 *Nama:* ${data.name}\n`;
+        cap += `> 👤 *Pemilik:* ${data.owner.login}\n`;
+        cap += `> ⭐ *Star:* ${data.stargazers_count}\n`;
+        cap += `> ℹ️ *Version:* ${pkg.version}\n`
+    cap += `> 🍴 *Forks:* ${data.forks}\n`;
+        cap += `> 📅 *Dibuat sejak:* ${Func.ago(data.created_at)}\n`;
+        cap += `> 🔄 *Terakhir Update:* ${Func.ago(data.updated_at)}\n`;
+        cap += `> 🔄 *Terakhir Publish:* ${Func.ago(data.pushed_at)}\n`;
+        cap += `> 🔗 *Link Repository:* ${data.html_url}\n\n`;
+        cap +=
+            "🔧 *Fitur Utama Script Bot:*\n" +
+            "> ✅ *Support Case x Plugins*\n" +
+            "> ✅ *Ukuran Script Ringan*\n" +
+            "> ✅ *100% Menggunakan Scrape*\n" +
+            "> ✅ *Respon Polling & Edit*\n" +
+            "> ✅ *Auto Reload File Scrape*\n" +
+            "> ✅ *Support Run Di Mana Saja*\n\n";
+        cap +=
+            "Script ini gratis, boleh kalian recode dan jual asal jangan hapus credit original dari kami!";
+
+        m.reply(cap);
+    }
 };
