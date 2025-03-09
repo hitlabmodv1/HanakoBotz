@@ -7,15 +7,29 @@
 
 ```> Simple WhatsApp bot Using Library Baileys```
 
-:--------         | :-----------: | :--------: | :--------: | :------: | :-------------: |
-| plugins          | ✅            | ✅         | ✅         | ✅         | ✅              |
-| case           | ✅            | ✅         | ✅         | ✅         | ✅              |
-| scraper       | ✅            | ✅         | ✅         | ✅         | ✅              |
-| reset limit             | ✅            | ✅         | ✅         | ✅         | ✅              |
-| auto clearsesi            | ➖            | ➖         | ➖         | ➖         | ➖              |
-| panel         | ✅            | ✅         | ✅         | ➖         | ➖              |
-| termux          | ✅            | ➖         | ✅         | ➖         | ➖              |
-| main             | ✅            | ✅         | ✅         | ✅         | ✅              |
+| service           | video + audio | only audio | only video | metadata | rich file names |
+| :--------         | :-----------: | :--------: | :--------: | :------: | :-------------: |
+| plugin          | ✅            | ✅         | ✅         | ➖         | ➖              |
+| case          | ✅            | ✅         | ✅         | ➖         | ➖              |
+| scraper      | ✅            | ✅         | ✅         | ✅         | ✅              |
+| main         | ✅            | ✅         | ✅         | ➖         | ➖              |
+| panel          | ✅            | ✅         | ✅         | ➖         | ➖              |
+| termux              | ✅            | ❌         | ✅         | ✅         | ➖              |
+| ok.ru             | ✅            | ❌         | ✅         | ✅         | ✅              |
+| pinterest         | ✅            | ✅         | ✅         | ➖         | ➖              |
+| reddit            | ✅            | ✅         | ✅         | ❌         | ❌              |
+| rutube            | ✅            | ✅         | ✅         | ✅         | ✅              |
+| snapchat          | ✅            | ✅         | ✅         | ➖         | ➖              |
+| soundcloud        | ➖            | ✅         | ➖         | ✅         | ✅              |
+| streamable        | ✅            | ✅         | ✅         | ➖         | ➖              |
+| tiktok            | ✅            | ✅         | ✅         | ❌         | ❌              |
+| tumblr            | ✅            | ✅         | ✅         | ➖         | ➖              |
+| twitch clips      | ✅            | ✅         | ✅         | ✅         | ✅              |
+| twitter/x         | ✅            | ✅         | ✅         | ➖         | ➖              |
+| vimeo             | ✅            | ✅         | ✅         | ✅         | ✅              |
+| vk videos & clips | ✅            | ❌         | ✅         | ✅         | ✅              |
+| xiaohongshu       | ✅            | ✅         | ✅         | ➖         | ➖              |
+| youtube           | ✅            | ✅         | ✅         | ✅         | ✅              |
 
 | emoji   | meaning                 |
 | :-----: | :---------------------- |
