@@ -6,21 +6,21 @@
 ![logo](https://files.catbox.moe/nogonh.png)
 
 ```> Simple WhatsApp bot Using Library Baileys```
-
-| service           | support | file |
-| :--------         | :-----------: | :--------: | :--------:
-| plugin          | ❌            | ✅         | 
-| case          | ❌            | ✅         | 
-| scraper      | ❌            | ✅         | 
-| main         | ❌            | ✅         | 
-| panel          | ✅            | ❌         | 
-| termux              | ✅            | ❌         | 
+| service           | run/start | files | 
+| :--------         | :-------: | :---: | 
+| Plugin            | ❌        | ✅    |
+| Case              | ❌        | ✅    |
+| Scraper           | ❌        | ✅    |
+| Auto ClearSesi    | ❌        | ❌    |
+| Main              | ✅        | ✅    |
+| Panel             | ✅        | ❌    |
+| Termux            | ✅        | ✅    |
 
 | emoji   | meaning                 |
 | :-----: | :---------------------- |
-| ✅      | supported               |
+| ✅      | ada/support             |
 | ➖      | unreasonable/impossible |
-| ❌      | not supported           |
+| ❌      | gada/ga support         |
 
 ```javascript
 {
