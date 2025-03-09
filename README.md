@@ -1,4 +1,4 @@
-***HanakoBotz | 1.3.0*** | ***Create By: deku || base: script Axel network***
+***HanakoBotz | 1.3.2*** | ***Create By: deku || base: script Axel network***
 
 ![Logo](https://files.catbox.moe/movzsb.jpg)
 
