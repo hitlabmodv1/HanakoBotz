@@ -13,6 +13,9 @@ const config = {
     jidgroup: '120363267102694949@g.us', 
     wach: 'https://whatsapp.com/channel/0029VadFS3r89inc7Jjus03W', 
     sessions: "sessions",
+    link: {
+     tt: "https://www.tiktok.com/@leooxzy_ganz/"
+    },
     sticker: {
       packname: "〆 ʜᴀɴᴀᴋᴏ-ᴋᴜɴ-ʙᴏᴛᴢ",
       author: "ʙʏ: ᴅᴇᴋᴜ/ʟᴇᴏᴏxᴢʏ 〆"
