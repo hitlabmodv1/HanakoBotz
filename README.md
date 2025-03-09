@@ -6,7 +6,7 @@
 ![logo](https://files.catbox.moe/nogonh.png)
 
 ```> Simple WhatsApp bot Using Library Baileys```
-| service           | run/start | files | 
+| Ada/Support       | run/start | files | 
 | :--------         | :-------: | :---: | 
 | Plugin            | ❌        | ✅    |
 | Case              | ❌        | ✅    |
