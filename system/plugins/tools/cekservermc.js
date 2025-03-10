@@ -1,3 +1,11 @@
+// © HanakoBotz
+// • By: Leooxzy - Deku
+// • Owner: 6283136099660
+
+// Plugin Cek Server Minecraft
+// By: Leooxzy
+// Bio cr: Krz
+
 const axios = require('axios')
 
 let rinokumura = {
