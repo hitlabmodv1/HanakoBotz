@@ -1,13 +1,19 @@
-***HanakoBotz | 1.3.2*** | ***Create By: deku || base: script Axel network***
+# **HanakoBotz | 1.3.2** | **Create By: deku || base: script Axel network**
 
-![Logo](https://files.catbox.moe/movzsb.jpg)
+<p align="center">
+  <img title="HanakoBotz" src="https://files.catbox.moe/movzsb.jpg">
+</p>
 
-|                  Creator                   |
-| :----------------------------------------: |
-|![logo](https://files.catbox.moe/nogonh.png)|
+## **By creator: Leooxyz**
 
-```> Simple WhatsApp bot Using Library Baileys```
-| Ada/Support       | run/start | files | 
+<p align="center">
+  <img title="HanakoBotz" src="https://files.catbox.moe/nogonh.png" width="400" height="400">
+</p>
+
+## Informasi
+
+**Simple WhatsApp bot Using Library Baileys**
+| Fitur             | run/start | files | 
 | :--------         | :-------: | :---: | 
 | Plugin            | ❌        | ✅    |
 | Case              | ❌        | ✅    |
@@ -19,9 +25,11 @@
 
 | emoji   | meaning                 |
 | :-----: | :---------------------- |
-| ✅      | ada/support             |
+| ✅      | Fitur tersedia          |
 | ➖      | unreasonable/impossible |
-| ❌      | gada/ga support         |
+| ❌      | Fitur belum/tidak ada   |
+
+---
 
 ```javascript
 {
@@ -102,7 +110,7 @@ $ npm start
 ## ☘️ Example Features
 Berikut cara menambahkan fitur pada bot ini
 
-## 1. Plugins
+### 1. Plugins
 
 ```javascript
 
@@ -121,7 +129,7 @@ module.exports = {
   }
 }
 ```
-## 2. Case
+### 2. Case
 
 ```javascript
 case "tes" : {
@@ -129,10 +137,21 @@ case "tes" : {
    }
 break
 ```
+
+---  
+
+## **All Contributors**  
+[![AxellNetwork](https://github.com/AxellNetwork.png?size=100)](https://github.com/AxellNetwork) | [![AndhikaGG](https://github.com/AndhikaGG.png?size=100)](https://github.com/AndhikaGG)  
+---|---  
+[AxellNetwork](https://github.com/AxellNetwork) | [AndhikaGG](https://github.com/ERLANRAHMAT)  
+Base Script | Penyumbang fitur
+
+---
+
 ## 📢 Jgn Lupa Follow Channel dan Join Group ya
 
-**Base Sc: https://whatsapp.com/channel/0029Vb0YWvYJ3jusF2nk9U1P**
+<p>Base Sc: <a href="https://whatsapp.com/channel/0029Vb0YWvYJ3jusF2nk9U1P">Klik disini</a></p>
 
-**Ch-1: https://whatsapp.com/channel/0029VadFS3r89inc7Jjus03W**
+<p>Ch-1 (utama): <a href="https://whatsapp.com/channel/0029VadFS3r89inc7Jjus03W">Klik disini</a></p>
 
-**Ch-2: https://whatsapp.com/channel/0029VateyJuKWEKhJMRKEL20**
+<p>Ch-2: <a href="https://whatsapp.com/channel/0029VateyJuKWEKhJMRKEL20">Klik disini</a></p>
