@@ -1,15 +1,13 @@
-# **HanakoBotz | 1.3.2** | **Create By: deku || base: script Axel network**
-
+# **HanakoBotz - v1.3.2** 
 <p align="center">
   <img title="HanakoBotz" src="https://files.catbox.moe/movzsb.jpg">
 </p>
 
-## **By creator:**
-
-[![LeooxzyDekuu](https://github.com/LeooxzyDekuu.png?size=400)](https://github.com/AxellNetwork) |
+## **Creator**
+[![LeooxzyDekuu](https://github.com/LeooxzyDekuu.png?size=400)](https://github.com/LeooxzyDekuu)
 ---|---  
-[LeooxzyDeku](https://github.com/LeooxzyDekuu) |
-Creator |
+[LeooxzyDekuu](https://github.com/LeooxzyDekuu) |  
+Pemilik Nya |
 
 ## Informasi
 
