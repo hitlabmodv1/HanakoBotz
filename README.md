@@ -5,8 +5,7 @@
 
 |                                          Creator                                                |
 | :---------------------------------------------------------------------------------------------: |
-| [![LeooxzyDekuu](https://github.com/LeooxzyDekuu.png?size=400)](https://github.com/LeooxzyDekuu)|
-| :---------------------------------------------------------------------------------------------: |
+| [![LeooxzyDekuu](https://github.com/LeooxzyDekuu.png?size=500)](https://github.com/LeooxzyDekuu)|
 | [LeooxzyDekuu](https://github.com/LeooxzyDekuu)                                                 |
 
 ## Informasi
