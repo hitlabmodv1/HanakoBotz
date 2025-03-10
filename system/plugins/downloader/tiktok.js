@@ -35,7 +35,7 @@ let rinokumura = {
                 caption += `> • Slide: ${a.image ? 'true' : 'false'}
 > • Hd Video: ${a.video_hd ? 'true' : 'false'}
 `
-                if (a.image > 1) {
+                if (a.image.length > 1) {
                     let medias = []
                     for (let i of a.image) {
                         medias.push({
