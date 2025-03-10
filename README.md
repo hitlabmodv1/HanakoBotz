@@ -7,7 +7,7 @@
 [![LeooxzyDekuu](https://github.com/LeooxzyDekuu.png?size=400)](https://github.com/LeooxzyDekuu)
 ---|---  
 [LeooxzyDekuu](https://github.com/LeooxzyDekuu) |  
-Pemilik Nya |
+Pemilik Nya
 
 ## Informasi
 
