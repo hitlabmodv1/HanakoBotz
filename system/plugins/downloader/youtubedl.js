@@ -79,8 +79,10 @@ ${metadata}
         if (isAudio) {
             let audio;
             try {
-                const savetubea = await Scraper.SaveTube.download(finalUrl, "mp3")
-                audio = savetubea.result.download;
+                const {
+                    result: savetube
+                } = await Scraper.SaveTube(finalUrl, "mp3")
+                audio = savetube.download;
             } catch (e) {
                 try {
                     const ytdowna = await Scraper.ytdown(finalUrl, "mp4", 720)
@@ -116,8 +118,8 @@ ${metadata}
                     quoted: m
                 });
             }
-            
         } else if (isVideo) {
+
             const getid = await dist.getVideoID(finalUrl);
             const videom = await yts({
                 videoId: getid,
@@ -127,8 +129,10 @@ ${metadata}
 
             let video;
             try {
-                const savetubev = await Scraper.SaveTube.download(finalUrl, "720")
-                video = savetubev.result.download;
+                const {
+                    result: savetube
+                } = await Scraper.SaveTube(finalUrl, "720")
+                video = savetube.download;
             } catch (e) {
                 try {
                     const ytdownv = await Scraper.ytdown(finalUrl, "mp4", 720)
