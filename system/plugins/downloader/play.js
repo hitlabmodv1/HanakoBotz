@@ -81,14 +81,15 @@ ${metadata}
         const finalUrl = client.yt[m.sender].url || video.url
 
         if (isAudio) {
-            const savetubea = await Scraper.SaveTube.download(finalUrl, "mp3")
-
             let audio;
-            if (savetubea.result.download) {
+            try {
+                const savetubea = await Scraper.SaveTube.download(finalUrl, "mp3")
                 audio = savetubea.result.download;
-            } else {
-                const ytdowna = await Scraper.ytdown(finalUrl, "mp4", 720)
-                audio = ytdown.result;
+            } catch (e) {
+                try {
+                    const ytdowna = await Scraper.ytdown(finalUrl, "mp4", 720)
+                    audio = ytdown.result;
+                } catch (e) {}
             }
 
             const getid = await dist.getVideoID(finalUrl);
@@ -119,9 +120,8 @@ ${metadata}
                     quoted: m
                 });
             }
+            
         } else if (isVideo) {
-            const savetubev = await Scraper.SaveTube.download(finalUrl, "720")
-
             const getid = await dist.getVideoID(finalUrl);
             const videom = await yts({
                 videoId: getid,
@@ -130,11 +130,14 @@ ${metadata}
             });
 
             let video;
-            if (savetubev.result.download) {
+            try {
+                const savetubev = await Scraper.SaveTube.download(finalUrl, "720")
                 video = savetubev.result.download;
-            } else {
-                const ytdownv = await Scraper.ytdown(finalUrl, "mp4", 720)
-                video = ytdownv.result;
+            } catch (e) {
+                try {
+                    const ytdownv = await Scraper.ytdown(finalUrl, "mp4", 720)
+                    video = ytdownv.result;
+                } catch (e) {}
             }
 
             let response = await fetch(video, {
