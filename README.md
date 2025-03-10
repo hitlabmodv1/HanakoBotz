@@ -4,10 +4,10 @@
 </p>
 
 ## **Creator**
-[![LeooxzyDekuu](https://github.com/LeooxzyDekuu.png?size=400)](https://github.com/LeooxzyDekuu) |
+[![AxellNetwork](https://github.com/AxellNetwork.png?size=100)](https://github.com/AxellNetwork)
 ---|---  
-[LeooxzyDekuu](https://github.com/LeooxzyDekuu) |  
-Pemilik Nya
+[AxellNetwork](https://github.com/AxellNetwork)
+Base Script
 
 ## Informasi
 
