@@ -35,19 +35,30 @@ let rinokumura = {
                 caption += `> • Slide: ${a.image ? 'true' : 'false'}
 > • Hd Video: ${a.video_hd ? 'true' : 'false'}
 `
-                let medias = []
-                for (let i of a.image) {
-                    medias.push({
-                        type: 'image',
-                        data: {
-                            url: i
-                        }
+                if (a.image > 1) {
+                    let medias = []
+                    for (let i of a.image) {
+                        medias.push({
+                            type: 'image',
+                            data: {
+                                url: i
+                            }
+                        })
+                    }
+                    await client.sendAlbumMessage(m.cht, medias, {
+                        caption: caption,
+                        quoted: m
+                    })
+                } else {
+                    await sock.sendMessage(m.cht, {
+                        image: {
+                            url: a.image[0]
+                        },
+                        caption
+                    }, {
+                        quoted: m
                     })
                 }
-                client.sendAlbumMessage(m.cht, medias, {
-                    caption: caption,
-                    quoted: m
-                })
             } else if (a.type === "video") {
                 caption += `> • Slide: ${a.image ? 'true' : 'false'}
 > • Hd Video: ${a.video_hd ? 'false' : 'true'}
