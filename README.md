@@ -6,9 +6,10 @@
 
 ## **By creator:**
 
-[![LeooxzyDekuu](https://github.com/LeooxzyDekuu.png?size=400)]
+[![LeooxzyDekuu](https://github.com/LeooxzyDekuu.png?size=400)](https://github.com/AxellNetwork) |
 ---|---  
 [LeooxzyDeku](https://github.com/LeooxzyDekuu) |
+Creator |
 
 ## Informasi
 
