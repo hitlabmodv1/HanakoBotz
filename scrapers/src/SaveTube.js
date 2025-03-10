@@ -1,3 +1,14 @@
+// © HanakoBotz
+// • By: Leooxzy - Deku
+// • Owner: 6283136099660
+
+// Scraper SaveTube
+// By: Daffa
+// Link Scraper: https://whatsapp.com/channel/0029Vb5EZCjIiRotHCI1213L/121
+
+// Remake: Leooxzy
+// Bio cr: Krz
+
 const axios = require('axios');
 const crypto = require('crypto');
 
