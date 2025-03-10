@@ -2,8 +2,9 @@
 
 ![Logo](https://files.catbox.moe/movzsb.jpg)
 
-***By creator:***
-![logo](https://files.catbox.moe/nogonh.png)
+|                  Creator                   |
+| :----------------------------------------: |
+|![logo](https://files.catbox.moe/nogonh.png)|
 
 ```> Simple WhatsApp bot Using Library Baileys```
 | Ada/Support       | run/start | files | 
