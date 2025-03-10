@@ -3,11 +3,9 @@
   <img title="HanakoBotz" src="https://files.catbox.moe/movzsb.jpg">
 </p>
 
-## **Creator**
-[![AxellNetwork](https://github.com/AxellNetwork.png?size=100)](https://github.com/AxellNetwork)
----|---  
-[AxellNetwork](https://github.com/AxellNetwork)
-Base Script
+|                                          Creator                                                |
+| :---------------------------------------------------------------------------------------------: |
+| [![LeooxzyDekuu](https://github.com/LeooxzyDekuu.png?size=100)](https://github.com/LeooxzyDekuu)|
 
 ## Informasi
 
