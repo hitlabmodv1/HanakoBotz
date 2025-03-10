@@ -4,11 +4,11 @@
   <img title="HanakoBotz" src="https://files.catbox.moe/movzsb.jpg">
 </p>
 
-## **By creator: Leooxyz**
+## **By creator:**
 
-<p align="center">
-  <img title="HanakoBotz" src="https://files.catbox.moe/nogonh.png" width="400" height="400">
-</p>
+[![LeooxzyDekuu](https://github.com/LeooxzyDekuu.png?size=400)]
+---|---  
+[LeooxzyDeku](https://github.com/LeooxzyDekuu) |
 
 ## Informasi
 
