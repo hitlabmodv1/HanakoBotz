@@ -153,14 +153,12 @@ module.exports = async (m,
                         response: m.prefix + m.command + ' 2'
                     }], m);
 
-                const args = m.args
-
-                if (args[0] === '1') {
-                    db.list().group[m.cht].antilink = true
-                    m.reply('Oke Fitur Antilink Udah Di Aktifkan')
-                } else if (args[0] === '2') {
-                    db.list().group[m.cht].antilink = false
-                    m.reply('Oke Fitur Antilink Udah Di Nonaktifkan')
+                if (text.includes('1')) {
+                    db.list().group[m.cht].anti.link = true
+                    m.reply(`Oke '${m.command}' Udah Di Aktifkan`)
+                } else if (text.includes('2')) {
+                    db.list().group[m.cht].anti.link = false
+                    m.reply(`Oke '${m.command}' Udah Di Nonaktifkan`)
                 } else {
                     sock.sendAliasMessage(m.cht, {
                         text: `ℹ️ Select Option Number
@@ -196,6 +194,7 @@ module.exports = async (m,
             case "antilinkgc": {
                 if (!m.isGroup) return m.reply('maaf khusus group')
                 if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
+
                 let pp;
                 try {
                     pp = await sock.profilePictureUrl(m.sender, 'image')
@@ -236,12 +235,12 @@ module.exports = async (m,
                         response: m.prefix + m.command + ' 2'
                     }], m);
 
-                if (args[0] === '1') {
-                    db.list().group[m.cht].antilinkgc = false
-                    m.reply('Oke Fitur Antilink Udah Aktif')
-                } else if (args[0] === '2') {
-                    db.list().group[m.cht].antilinkgc = false
-                    m.reply('Oke Fitur Antilink Udah Nonaktifkan')
+                if (text.includes('1')) {
+                    db.list().group[m.cht].anti.linkgc = true
+                    m.reply(`Oke '${m.command}' Udah Di Aktifkan`)
+                } else if (text.includes('2')) {
+                    db.list().group[m.cht].anti.linkgc = false
+                    m.reply(`Oke '${m.command}' Udah Di Nonaktifkan`)
                 } else {
                     sock.sendAliasMessage(m.cht, {
                         text: `ℹ️ Select Option Number
@@ -277,6 +276,7 @@ module.exports = async (m,
             case "antilinkch": {
                 if (!m.isGroup) return m.reply('maaf khusus group')
                 if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
+
                 let pp;
                 try {
                     pp = await sock.profilePictureUrl(m.sender, 'image')
@@ -317,14 +317,451 @@ module.exports = async (m,
                         response: m.prefix + m.command + ' 2'
                     }], m);
 
-                if (args[0] === '1') {
-                    db.list().group[m.cht].antilinkch = true
-                    m.reply('Oke Fitur Antilinkch Udah Aktif')
-                } else if (args[0] === '2') {
-                    db.list().group[m.cht].antilinkch = false
-                    m.reply('Oke Fitur Antilinkch Udah Nonaktifkan')
+                if (text.includes('1')) {
+                    db.list().group[m.cht].anti.linkch = true
+                    m.reply(`Oke '${m.command}' Udah Di Aktifkan`)
+                } else if (text.includes('2')) {
+                    db.list().group[m.cht].anti.linkch = false
+                    m.reply(`Oke '${m.command}' Udah Di Nonaktifkan`)
                 } else {
+                    sock.sendAliasMessage(m.cht, {
+                        text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                        contextInfo: {
+                            mentionedJid: [m.sender],
+                            isForwarded: !0,
+                            forwardingScore: 127,
+                            forwardedNewsletterMessageInfo: {
+                                newsletterJid: config.saluran,
+                                newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                                serverMessageId: -1
+                            },
+                            externalAdReply: {
+                                title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                                body: Func.Styles(`${m.pushName}`),
+                                mediaType: 1,
+                                thumbnailUrl: pp,
+                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                            }
+                        }
+                    }, [{
+                        alias: '1',
+                        response: m.prefix + m.command + ' 1'
+                    }, {
+                        alias: '2',
+                        response: m.prefix + m.command + ' 2'
+                    }], m);
+                }
+            }
+            break;
+            case "antilinknumber": {
+                if (!m.isGroup) return m.reply('maaf khusus group')
+                if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
 
+                let pp;
+                try {
+                    pp = await sock.profilePictureUrl(m.sender, 'image')
+                } catch (e) {
+                    pp = "https://file.btch.rf.gd/file/dlhruelxlqwdjeq28ilr.jpg"
+                    try {
+                        pp = "https://files.catbox.moe/px1m46.jpg"
+                    } catch (e) {}
+                }
+
+                if (!text)
+                    return sock.sendAliasMessage(m.cht, {
+                        text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                        contextInfo: {
+                            mentionedJid: [m.sender],
+                            isForwarded: !0,
+                            forwardingScore: 127,
+                            forwardedNewsletterMessageInfo: {
+                                newsletterJid: config.saluran,
+                                newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                                serverMessageId: -1
+                            },
+                            externalAdReply: {
+                                title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                                body: Func.Styles(`${m.pushName}`),
+                                mediaType: 1,
+                                thumbnailUrl: pp,
+                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                            }
+                        }
+                    }, [{
+                        alias: '1',
+                        response: m.prefix + m.command + ' 1'
+                    }, {
+                        alias: '2',
+                        response: m.prefix + m.command + ' 2'
+                    }], m);
+
+                if (text.includes('1')) {
+                    db.list().group[m.cht].anti.linknumber = true
+                    m.reply(`Oke '${m.command}' Udah Di Aktifkan`)
+                } else if (text.includes('2')) {
+                    db.list().group[m.cht].anti.linknumber = false
+                    m.reply(`Oke '${m.command}' Udah Di Nonaktifkan`)
+                } else {
+                    sock.sendAliasMessage(m.cht, {
+                        text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                        contextInfo: {
+                            mentionedJid: [m.sender],
+                            isForwarded: !0,
+                            forwardingScore: 127,
+                            forwardedNewsletterMessageInfo: {
+                                newsletterJid: config.saluran,
+                                newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                                serverMessageId: -1
+                            },
+                            externalAdReply: {
+                                title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                                body: Func.Styles(`${m.pushName}`),
+                                mediaType: 1,
+                                thumbnailUrl: pp,
+                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                            }
+                        }
+                    }, [{
+                        alias: '1',
+                        response: m.prefix + m.command + ' 1'
+                    }, {
+                        alias: '2',
+                        response: m.prefix + m.command + ' 2'
+                    }], m);
+                }
+            }
+            break;
+            case "antitoxic": {
+                if (!m.isGroup) return m.reply('maaf khusus group')
+                if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
+
+                let pp;
+                try {
+                    pp = await sock.profilePictureUrl(m.sender, 'image')
+                } catch (e) {
+                    pp = "https://file.btch.rf.gd/file/dlhruelxlqwdjeq28ilr.jpg"
+                    try {
+                        pp = "https://files.catbox.moe/px1m46.jpg"
+                    } catch (e) {}
+                }
+
+                if (!text)
+                    return sock.sendAliasMessage(m.cht, {
+                        text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                        contextInfo: {
+                            mentionedJid: [m.sender],
+                            isForwarded: !0,
+                            forwardingScore: 127,
+                            forwardedNewsletterMessageInfo: {
+                                newsletterJid: config.saluran,
+                                newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                                serverMessageId: -1
+                            },
+                            externalAdReply: {
+                                title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                                body: Func.Styles(`${m.pushName}`),
+                                mediaType: 1,
+                                thumbnailUrl: pp,
+                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                            }
+                        }
+                    }, [{
+                        alias: '1',
+                        response: m.prefix + m.command + ' 1'
+                    }, {
+                        alias: '2',
+                        response: m.prefix + m.command + ' 2'
+                    }], m);
+
+                if (text.includes('1')) {
+                    db.list().group[m.cht].anti.toxic = true
+                    m.reply(`Oke '${m.command}' Udah Di Aktifkan`)
+                } else if (text.includes('2')) {
+                    db.list().group[m.cht].anti.toxic = false
+                    m.reply(`Oke '${m.command}' Udah Di Nonaktifkan`)
+                } else {
+                    sock.sendAliasMessage(m.cht, {
+                        text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                        contextInfo: {
+                            mentionedJid: [m.sender],
+                            isForwarded: !0,
+                            forwardingScore: 127,
+                            forwardedNewsletterMessageInfo: {
+                                newsletterJid: config.saluran,
+                                newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                                serverMessageId: -1
+                            },
+                            externalAdReply: {
+                                title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                                body: Func.Styles(`${m.pushName}`),
+                                mediaType: 1,
+                                thumbnailUrl: pp,
+                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                            }
+                        }
+                    }, [{
+                        alias: '1',
+                        response: m.prefix + m.command + ' 1'
+                    }, {
+                        alias: '2',
+                        response: m.prefix + m.command + ' 2'
+                    }], m);
+                }
+            }
+            break;
+            case "antitagsw": {
+                if (!m.isGroup) return m.reply('maaf khusus group')
+                if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
+
+                let pp;
+                try {
+                    pp = await sock.profilePictureUrl(m.sender, 'image')
+                } catch (e) {
+                    pp = "https://file.btch.rf.gd/file/dlhruelxlqwdjeq28ilr.jpg"
+                    try {
+                        pp = "https://files.catbox.moe/px1m46.jpg"
+                    } catch (e) {}
+                }
+
+                if (!text)
+                    return sock.sendAliasMessage(m.cht, {
+                        text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                        contextInfo: {
+                            mentionedJid: [m.sender],
+                            isForwarded: !0,
+                            forwardingScore: 127,
+                            forwardedNewsletterMessageInfo: {
+                                newsletterJid: config.saluran,
+                                newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                                serverMessageId: -1
+                            },
+                            externalAdReply: {
+                                title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                                body: Func.Styles(`${m.pushName}`),
+                                mediaType: 1,
+                                thumbnailUrl: pp,
+                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                            }
+                        }
+                    }, [{
+                        alias: '1',
+                        response: m.prefix + m.command + ' 1'
+                    }, {
+                        alias: '2',
+                        response: m.prefix + m.command + ' 2'
+                    }], m);
+
+                if (text.includes('1')) {
+                    db.list().group[m.cht].anti.gctag = true
+                    m.reply(`Oke '${m.command}' Udah Di Aktifkan`)
+                } else if (text.includes('2')) {
+                    db.list().group[m.cht].anti.gctag = false
+                    m.reply(`Oke '${m.command}' Udah Di Nonaktifkan`)
+                } else {
+                    sock.sendAliasMessage(m.cht, {
+                        text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                        contextInfo: {
+                            mentionedJid: [m.sender],
+                            isForwarded: !0,
+                            forwardingScore: 127,
+                            forwardedNewsletterMessageInfo: {
+                                newsletterJid: config.saluran,
+                                newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                                serverMessageId: -1
+                            },
+                            externalAdReply: {
+                                title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                                body: Func.Styles(`${m.pushName}`),
+                                mediaType: 1,
+                                thumbnailUrl: pp,
+                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                            }
+                        }
+                    }, [{
+                        alias: '1',
+                        response: m.prefix + m.command + ' 1'
+                    }, {
+                        alias: '2',
+                        response: m.prefix + m.command + ' 2'
+                    }], m);
+                }
+            }
+            break;
+            case "antinsfw": {
+                if (!m.isGroup) return m.reply('maaf khusus group')
+                if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
+
+                let pp;
+                try {
+                    pp = await sock.profilePictureUrl(m.sender, 'image')
+                } catch (e) {
+                    pp = "https://file.btch.rf.gd/file/dlhruelxlqwdjeq28ilr.jpg"
+                    try {
+                        pp = "https://files.catbox.moe/px1m46.jpg"
+                    } catch (e) {}
+                }
+
+                if (!text)
+                    return sock.sendAliasMessage(m.cht, {
+                        text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                        contextInfo: {
+                            mentionedJid: [m.sender],
+                            isForwarded: !0,
+                            forwardingScore: 127,
+                            forwardedNewsletterMessageInfo: {
+                                newsletterJid: config.saluran,
+                                newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                                serverMessageId: -1
+                            },
+                            externalAdReply: {
+                                title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                                body: Func.Styles(`${m.pushName}`),
+                                mediaType: 1,
+                                thumbnailUrl: pp,
+                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                            }
+                        }
+                    }, [{
+                        alias: '1',
+                        response: m.prefix + m.command + ' 1'
+                    }, {
+                        alias: '2',
+                        response: m.prefix + m.command + ' 2'
+                    }], m);
+
+                if (text.includes('1')) {
+                    db.list().group[m.cht].anti.nsfw = true
+                    m.reply(`Oke '${m.command}' Udah Di Aktifkan`)
+                } else if (text.includes('2')) {
+                    db.list().group[m.cht].anti.nsfw = false
+                    m.reply(`Oke '${m.command}' Udah Di Nonaktifkan`)
+                } else {
+                    sock.sendAliasMessage(m.cht, {
+                        text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                        contextInfo: {
+                            mentionedJid: [m.sender],
+                            isForwarded: !0,
+                            forwardingScore: 127,
+                            forwardedNewsletterMessageInfo: {
+                                newsletterJid: config.saluran,
+                                newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                                serverMessageId: -1
+                            },
+                            externalAdReply: {
+                                title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                                body: Func.Styles(`${m.pushName}`),
+                                mediaType: 1,
+                                thumbnailUrl: pp,
+                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                            }
+                        }
+                    }, [{
+                        alias: '1',
+                        response: m.prefix + m.command + ' 1'
+                    }, {
+                        alias: '2',
+                        response: m.prefix + m.command + ' 2'
+                    }], m);
+                }
+            }
+            break;
+            case "antibot": {
+                if (!m.isGroup) return m.reply('maaf khusus group')
+                if (!m.isOwner && !m.isAdmin) return m.reply('maaf command ini bisa nya ke admin and owner')
+
+                let pp;
+                try {
+                    pp = await sock.profilePictureUrl(m.sender, 'image')
+                } catch (e) {
+                    pp = "https://file.btch.rf.gd/file/dlhruelxlqwdjeq28ilr.jpg"
+                    try {
+                        pp = "https://files.catbox.moe/px1m46.jpg"
+                    } catch (e) {}
+                }
+
+                if (!text)
+                    return sock.sendAliasMessage(m.cht, {
+                        text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                        contextInfo: {
+                            mentionedJid: [m.sender],
+                            isForwarded: !0,
+                            forwardingScore: 127,
+                            forwardedNewsletterMessageInfo: {
+                                newsletterJid: config.saluran,
+                                newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                                serverMessageId: -1
+                            },
+                            externalAdReply: {
+                                title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                                body: Func.Styles(`${m.pushName}`),
+                                mediaType: 1,
+                                thumbnailUrl: pp,
+                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                            }
+                        }
+                    }, [{
+                        alias: '1',
+                        response: m.prefix + m.command + ' 1'
+                    }, {
+                        alias: '2',
+                        response: m.prefix + m.command + ' 2'
+                    }], m);
+
+                if (text.includes('1')) {
+                    db.list().group[m.cht].anti.bot = true
+                    m.reply(`Oke '${m.command}' Udah Di Aktifkan`)
+                } else if (text.includes('2')) {
+                    db.list().group[m.cht].anti.bot = false
+                    m.reply(`Oke '${m.command}' Udah Di Nonaktifkan`)
+                } else {
+                    sock.sendAliasMessage(m.cht, {
+                        text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                        contextInfo: {
+                            mentionedJid: [m.sender],
+                            isForwarded: !0,
+                            forwardingScore: 127,
+                            forwardedNewsletterMessageInfo: {
+                                newsletterJid: config.saluran,
+                                newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                                serverMessageId: -1
+                            },
+                            externalAdReply: {
+                                title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                                body: Func.Styles(`${m.pushName}`),
+                                mediaType: 1,
+                                thumbnailUrl: pp,
+                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                            }
+                        }
+                    }, [{
+                        alias: '1',
+                        response: m.prefix + m.command + ' 1'
+                    }, {
+                        alias: '2',
+                        response: m.prefix + m.command + ' 2'
+                    }], m);
                 }
             }
             break;
@@ -452,7 +889,6 @@ module.exports = async (m,
                 }
             }
             break;
-
             case "cases": {
                 if (!m.isOwner) return m.reply(config.messages.owner);
 
