@@ -283,36 +283,19 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                 let groupMetadata = await sock.groupMetadata(id);
                 let totalMembers = groupMetadata.participants.length;
                 const metadata = await sock.groupMetadata[id];
-                groupCache.set(id, metadata);
-                
-                if (["add", "revoked_membership_requests"].includes(action)) {
-                    metadata.participants.push(
-                        ...participants.map((id) => ({
-                            id: jidNormalizedUser(id),
-                            admin: null,
-                        }))
-                    );
-                } else if (["promote", "demote"].includes(action)) {
-                    for (const participant of metadata.participants) {
-                        let jid = jidNormalizedUser(participant.id);
-                        if (participants.includes(jid)) {
-                            participant.admin = action === "promote" ? "admin" : null;
-                        }
-                    }
-                }
 
                 for (let participant of participants) {
                     if (action === "add") {
                         sock.sendMessage(id, {
                             image: {
-                                url: "https://files.catbox.moe/j20zmx.jpg"
+                                url: "https://files.catbox.moe/mk2oik.jpg"
                             },
                             caption: `Yokoso! (Selamat datang!) Untuk member baru! bernama @${participant.split("@")[0]} ${config.name}-Kun senang sekali bisa bertemu denganmu! *🤩*\nJan Lupa Baca Rules Ya Membaru`,
                             footer: config.name,
                             buttons: [{
                                 buttonId: ".menu",
                                 buttonText: {
-                                    displayText: 'Welcome'
+                                    displayText: 'Goodbye'
                                 }
                             }],
                             viewOnce: true,
@@ -355,6 +338,7 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                             }
                         });
                     }
+                  groupCache.set(id, metadata);
                 }
             } catch (err) {
                 console.log(err);
