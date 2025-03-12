@@ -4,6 +4,7 @@
 
 // By: Leooxzy
 // Bio cr: Krz
+const axios = require('axios')
 
 module.exports = {
     command: "pastebin",
