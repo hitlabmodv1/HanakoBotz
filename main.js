@@ -301,13 +301,13 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                     }
                 }
 
-                for (let participants of participants) {
+                for (let participant of participants) {
                     if (action === "add") {
                         sock.sendMessage(id, {
                             image: {
                                 url: "https://files.catbox.moe/j20zmx.jpg"
                             },
-                            caption: `Yokoso! (Selamat datang!) Untuk member baru! bernama @${participant.split("@")[0]} ${config.name}-Kun senang sekali bisa bertemu denganmu! *🤩*\nJan Lupa Baca Rules Ya Membaru`,
+                            caption: `Yokoso! (Selamat datang!) Untuk member baru! bernama @${participant.id.split("@")[0]} ${config.name}-Kun senang sekali bisa bertemu denganmu! *🤩*\nJan Lupa Baca Rules Ya Membaru`,
                             footer: config.name,
                             buttons: [{
                                 buttonId: ".menu",
@@ -318,7 +318,7 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                             viewOnce: true,
                             headerType: 6,
                             contextInfo: {
-                                mentionedJid: [participant],
+                                mentionedJid: [participant.id],
                                 isForwarded: !0,
                                 forwardingScore: 127,
                                 forwardedNewsletterMessageInfo: {
@@ -333,7 +333,7 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                             image: {
                                 url: "https://files.catbox.moe/mk2oik.jpg"
                             },
-                            caption: `Sayonara, @${participant.split("@")[0]}-kun! Mata ne! :)`,
+                            caption: `Sayonara, @${participants.id.split("@")[0]}-kun! Mata ne! :)`,
                             footer: config.name,
                             buttons: [{
                                 buttonId: ".menu",
@@ -344,7 +344,7 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                             viewOnce: true,
                             headerType: 6,
                             contextInfo: {
-                                mentionedJid: [participants],
+                                mentionedJid: [participants.id],
                                 isForwarded: !0,
                                 forwardingScore: 127,
                                 forwardedNewsletterMessageInfo: {
