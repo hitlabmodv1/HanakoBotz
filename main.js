@@ -301,7 +301,7 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                     }
                 }
 
-                for (let participant of participants) {
+                for (let participants of participants) {
                     if (action === "add") {
                         sock.sendMessage(id, {
                             image: {
@@ -344,7 +344,7 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                             viewOnce: true,
                             headerType: 6,
                             contextInfo: {
-                                mentionedJid: [participant],
+                                mentionedJid: [participants],
                                 isForwarded: !0,
                                 forwardingScore: 127,
                                 forwardedNewsletterMessageInfo: {
