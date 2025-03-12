@@ -338,8 +338,8 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                             }
                         });
                     }
-                  groupCache.set(id, metadata);
                 }
+              groupCache.set(id, metadata);
             } catch (err) {
                 console.log(err);
             }
