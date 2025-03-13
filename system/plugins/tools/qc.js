@@ -1,3 +1,10 @@
+// © HanakoBotz
+// • By: Leooxzy - Deku
+// • Owner: 6283136099660
+
+// By: Leooxzy
+// Bio cr: Krz
+
 const {
     writeExif
 } = require(process.cwd() + "/lib/sticker");
@@ -14,47 +21,49 @@ let deku = async (m, {
 }) => {
     if (!text) throw "> Masukan pesan nya";
     if (text.length > 10000) throw "Maximal 10000 karakter!"
-    try {
-        urlPic = await sock.profilePictureUrl(m.sender, 'image')
-    } catch {
-        urlPic = "https://files.catbox.moe/px1m46.jpg"
-    }
-    const json = {
-        "type": "quote",
-        "format": "png",
-        "backgroundColor": "#161616",
-        "width": 512,
-        "height": 768,
-        "scale": 2,
-        "messages": [{
-            "entities": [],
-            "avatar": true,
-            "from": {
-                "id": 1,
-                "name": m.pushName,
-                "photo": {
-                    "url": urlPic
-                }
+    const q = m.quoted ? m.quoted : m;
+    const mime = (q.msg || q).mimetype || "";
+    const pp = await sock
+        .profilePictureUrl(q.sender, "image")
+        .catch(() => "");
+    const obj = {
+        type: "quote",
+        format: "png",
+        backgroundColor: "#2c7355",
+        width: 512,
+        height: 768,
+        scale: 2,
+        messages: [{
+            entities: [],
+            media: mime ? {
+                url: await Uploader.Uguu(img)
+            } : undefined,
+            avatar: true,
+            from: {
+                id: m.cht.split("@")[0],
+                name: await sock.getName(q.sender),
+                photo: {
+                    url: pp
+                },
             },
-            "text": text,
-            "replyMessage": {}
-        }]
+            text: text,
+            replyMessage: {},
+        }],
     };
 
-    const res = await axios.post('https://bot.lyo.su/quote/generate', json, {
-        headers: {
-            'Content-Type': 'application/json'
+    const json = await axios.post(
+        "https://quotly.netorare.codes/generate",
+        obj, {
+            headers: {
+                "Content-Type": "application/json"
+            },
         }
-    });
-    const buffer = Buffer.from(res.data.result.image, 'base64');
-    const rest = {
-        status: "200",
-        creator: "AdrianTzy",
-        result: buffer
-    };
+    );
+
+    const buffer = Buffer.from(json.data.result.image, "base64");
     const sticker = await writeExif({
         mimetype: "image",
-        data: rest.result,
+        data: buffer,
     }, {
         packName: config.sticker.packname,
         packPublish: config.sticker.author,
