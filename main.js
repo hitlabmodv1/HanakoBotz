@@ -295,7 +295,7 @@ Welcome to Script HanakoBotz / Dxyz - Lxzy`))
                             buttons: [{
                                 buttonId: ".menu",
                                 buttonText: {
-                                    displayText: 'Goodbye'
+                                    displayText: 'Welcome'
                                 }
                             }],
                             viewOnce: true,
