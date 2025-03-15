@@ -13,6 +13,7 @@ async function googleLyrics(judulLagu) {
     const lirik = [];
     const output = [];
     const result = {};
+    const metadata = {};
     
     $('div.PZPZlf').each((i, e)=>{
       const penemu = $(e).find('div[jsname="U8S5sf"]').text().trim();
@@ -28,16 +29,16 @@ async function googleLyrics(judulLagu) {
     });
 
     result.lyrics = lirik.join('\n\n');
-    result.title = output.shift();
-    result.subtitle = output.shift();
-    result.platform = output.filter(_=>!_.includes(':'));
+    metadata.title = output.shift();
+    metadata.subtitle = output.shift();
+    metadata.platform = output.filter(_=>!_.includes(':'));
     output.forEach(_=>{
       if (_.includes(':')){
         const [ name, value ] = _.split(':');
         result[name.toLowerCase()] = value.trim();
       }
     });
-    return result;
+    return { result, metadata };
   } catch (error) {
     return { error: error.message };
   }
