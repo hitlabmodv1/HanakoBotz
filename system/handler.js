@@ -41,6 +41,9 @@ module.exports = async (m, sock, store) => {
   const usedPrefix = config.prefix.includes(m.prefix);
   const text = m.text;
   const isCmd = m.prefix && usedPrefix;
+   if (!m.isGroup && db.list().settings.onlygrub && !m.isOwner) {
+      if (isCmd) return m.reply({ text: `Sorry Bre Ini Only Gc Link Gc:\n\n${config.wagc.map((a, i) => `${i + 1 + ','} ${a}`).join(`\n`)}` })
+   }
 
   if (isPrems) {
       db.list().user[m.sender].limit = 100;
