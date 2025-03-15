@@ -39,6 +39,66 @@ module.exports = async (m,
 
     try {
         switch (m.command) {
+            case "onlygc":
+            case "onlygroup": {
+                let pp;
+                try {
+                    pp = await sock.profilePictureUrl(m.sender, 'image')
+                } catch (e) {
+                    pp = "https://file.btch.rf.gd/file/dlhruelxlqwdjeq28ilr.jpg"
+                    try {
+                        pp = "https://files.catbox.moe/px1m46.jpg"
+                    } catch (e) {}
+                }
+                
+                if (!m.isOwner) return m.reply('⚠️ Khusus Owner !')
+                if (!text) return sock.sendAliasMessage(m.cht, {
+                        text: `ℹ️ Select Option Number
+> • 1. Mengaktifkan ${m.command}
+> • 2. Mematikan ${m.command}`,
+                        contextInfo: {
+                            mentionedJid: [m.sender],
+                            isForwarded: !0,
+                            forwardingScore: 127,
+                            forwardedNewsletterMessageInfo: {
+                                newsletterJid: config.saluran,
+                                newsletterName: Func.Styles(`${config.name} By Creator: ${config.ownername}`),
+                                serverMessageId: -1
+                            },
+                            externalAdReply: {
+                                title: Func.Styles(`Hai ${m.pushName} Apakabar Syg🥰`),
+                                body: Func.Styles(`${m.pushName}`),
+                                mediaType: 1,
+                                thumbnailUrl: pp,
+                                sourceUrl: config.link.tt,
+                            }
+                        }
+                    }, [{
+                        alias: '1',
+                        response: m.prefix + m.command + ' 1'
+                    }, {
+                        alias: '2',
+                        response: m.prefix + m.command + ' 2'
+                    }], m);
+                if (text.includes('1')) {
+                    db.list().settings.onlygrub = true
+                    m.reply(`Oke '${m.command}' Udah Di Aktifkan`)
+                } else if (text.includes('2')) {
+                    db.list().settings.onlygrub = false
+                    m.reply(`Oke '${m.command}' Udah Di Nonaktifkan`)
+                } else {
+                    sock.sendAliasMessage(m.cht, {
+                        text: `ℹ️Pilih Options\n> • 1.Aktifkan ${m.command}\n> • 1.Nonaktifkan ${m.command}`
+                    }, [{
+                        alias: '1',
+                        response: m.prefix + m.command + ' 1'
+                    }, {
+                        alias: '2',
+                        response: m.prefix + m.command + ' 2'
+                    }], m)
+                }
+            }
+            break
             case "rvo":
             case "readviewonce": {
                 const baileys = require('baileys')
@@ -142,7 +202,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -178,7 +238,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -224,7 +284,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -260,7 +320,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -306,7 +366,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -342,7 +402,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -388,7 +448,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -424,7 +484,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -470,7 +530,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -506,7 +566,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -552,7 +612,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -588,7 +648,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -634,7 +694,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -670,7 +730,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -716,7 +776,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
@@ -752,7 +812,7 @@ module.exports = async (m,
                                 body: Func.Styles(`${m.pushName}`),
                                 mediaType: 1,
                                 thumbnailUrl: pp,
-                                sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
+                                sourceUrl: config.link.tt,
                             }
                         }
                     }, [{
