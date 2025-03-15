@@ -6,7 +6,7 @@ const config = {
     ownername: 'ʟᴇᴏᴏxᴢʏ', 
     ownername2: 'ᴅᴇᴋᴜ',
     prefix: [".", "?", "!", "/", "#"], //Tambahin sendiri prefix nya kalo kurang
-    wwagc: 'https://chat.whatsapp.com/JyeT1hdCPJeLy95tzx5eyI',
+    wagc: [ "https://chat.whatsapp.com/JyeT1hdCPJeLy95tzx5eyI", "https://chat.whatsapp.com/DfffgArbTUu46nqCgmCbE0" ],
     saluran: '120363279195205552@newsletter', 
     jidgroupnotif: '120363266755712733@g.us', 
     saluran2: '120363335701540699@newsletter', 
