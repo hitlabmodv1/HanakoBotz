@@ -13,6 +13,9 @@ const config = {
     jidgroup: '120363267102694949@g.us', 
     wach: 'https://whatsapp.com/channel/0029VadFS3r89inc7Jjus03W', 
     sessions: "sessions",
+    groq: {
+     api: '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'
+    },
     link: {
      tt: "https://www.tiktok.com/@leooxzy_ganz/"
     },
