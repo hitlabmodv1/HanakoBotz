@@ -102,7 +102,7 @@ ${matches.map((a, i) => `│    =〆 ${m.prefix + a}`).join("\n")}`);
         caption += `\n⏤͟͟͞͞╳────────── .✦`;
     });
 
-    m.reply({
+    await sock.sendMessage(m.cht, {
         video: {
             url: "https://files.catbox.moe/f1l5ij.mp4"
         },
@@ -126,7 +126,7 @@ ${matches.map((a, i) => `│    =〆 ${m.prefix + a}`).join("\n")}`);
                 sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
             }
         }
-    })
+    }, { quoted: await m.froll() })
 
 }
 
