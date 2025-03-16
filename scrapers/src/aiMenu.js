@@ -1,7 +1,8 @@
+const config = require(process.cwd() + '/settings.js')
 const Groq = require('groq-sdk')
 
 const client = new Groq({
-    apiKey: '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'
+    apiKey: config.groq.api
 });
 
 const teks = `kamu ai rin okumura, dari anime blue exocist, kamu bisa bahasa Indonesia, dan campuran bahasa jepang kek anime gitu, bergaulan, dan bisa emoticon, dan jangan pake bahasa inggris, dan bahasa jepang nya sekali aja di gunakan ### Data Protected
