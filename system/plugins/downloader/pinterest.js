@@ -21,7 +21,6 @@ let deku = async (m, {
     } else {
         try {
             const a = await Scraper.pinterest.search(text);
-            if (!a && !a.length > 0) throw 'maaf yg anda search tidak di temukan😹';
             let pickget = a.pins[Math.floor(Math.random() * a.pins.length)];
             result = pickget.media.images.orig.url
         } catch (err) {
@@ -32,11 +31,11 @@ let deku = async (m, {
                     }
                 }).then(a => a.data)
                 let pickget = a.pins[Math.floor(Math.random() * a.pins.length)];
-                if (!pinsrch && !pinsrch.length > 0) throw 'maaf yg anda search tidak di temukan😹';
                 result = pickget.images_url
             } catch (err) {}
         }
 
+        if (!result && !result.length > 0) throw 'maaf yg anda search tidak di temukan😹';
         let cap = `🔍 Search [ ${text} ]`;
         cap += `\n> Kalau Kamu Salah Dan Ga Suka\n> Ketik \`[ Next / Lanjut ]\``;
 
