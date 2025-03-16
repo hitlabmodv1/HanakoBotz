@@ -1,6 +1,5 @@
 const Groq = require('groq-sdk')
-
-const axios = require('axios')
+const config = require(process.cwd() + '/settings.js')
 
 let Yukio = async (m, {
     sock,
@@ -9,8 +8,7 @@ let Yukio = async (m, {
     DekuGanz,
     Func,
     Scraper,
-    text,
-    config
+    text
 }) => {
     let h = await BakugoChat(text)
     if (!h) return m.reply('maaf error kata kata mu😂')
