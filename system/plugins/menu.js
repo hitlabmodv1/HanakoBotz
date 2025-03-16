@@ -106,7 +106,7 @@ ${list.command
 `);
 
 
-        m.reply({
+       await sock.sendMessage(m.cht, {
             video: {
                 url: "https://files.catbox.moe/f1l5ij.mp4"
             },
@@ -130,7 +130,7 @@ ${list.command
                     sourceUrl: "https://www.tiktok.com/@leooxzy_ganz/",
                 }
             }
-        })
+        }, { quoted: await m.froll() })
     } else {
         let list = Object.keys(menu);
         const xmenu_oh = `${hanakoai}${readmore}
@@ -222,7 +222,7 @@ Kalau Error Bisa Hubungi Ke .owner gass`
             title: 'Click Here⎙',
             sections
         };
-        m.reply({
+       await sock.sendMessage(m.cht, {
             location: {
                 degreesLatitude: 0,
                 degreesLongitude: 0,
@@ -254,7 +254,7 @@ Kalau Error Bisa Hubungi Ke .owner gass`
                     merchant_url: config.wagc
                 })
             }]
-        })
+        }, { quoted: await m.froll() })
 
         await m.reply({
             audio: {
