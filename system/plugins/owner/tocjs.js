@@ -12,6 +12,7 @@ let Yukio = async (m, {
 }) => {
     switch (m.command) {
         case "tocjs": {
+            const quoted = m.quoted ? m.quoted : m;
             if (!quoted) return m.reply('Masukkan Code ESM Text/Reply Yang Ingin Di Convert CJS.');
             if (m.quoted.body) {
                 try {
