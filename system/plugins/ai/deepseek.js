@@ -44,7 +44,7 @@ module.exports = {
 }
 
 const client = new Groq({
-    apiKey: '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'
+    apiKey: config.groq.api
 });
 
 async function DekuChat(prompt) {
