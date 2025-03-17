@@ -71,7 +71,7 @@ ${metadata}
             }, {
                 alias: `2`,
                 response: `${m.prefix + m.command} ${UrlYt} --audio`
-            }], m);
+            }], await m.froll());
         }
 
         const finalUrl = client.yt[m.sender].url || video.url
@@ -85,8 +85,8 @@ ${metadata}
                 audio = savetube.download;
             } catch (e) {
                 try {
-                    const ytdowna = await Scraper.ytdown(finalUrl, "mp4", 720)
-                    audio = ytdown.result;
+                    const ddownra = await Scraper.ddownr.download(finalUrl, 'mp3');
+                    audio = ddownra.downloadUrl;
                 } catch (e) {}
             }
 
@@ -98,7 +98,7 @@ ${metadata}
             });
 
             const sizea = await Func.getSize(audio)
-            if (sizea > 10 * 1024 * 1024) {
+            if (sizea > 30 * 1024 * 1024) {
                 return sock.sendMessage(m.cht, {
                     document: {
                         url: audio
@@ -106,7 +106,7 @@ ${metadata}
                     mimetype: "audio/mpeg",
                     fileName: `${audiom.title}.mp3`,
                 }, {
-                    quoted: m
+                    quoted: await m.froll(config.owner[0], Func.Styles('Mendownload Audio YouTube'))
                 });
             } else {
                 return sock.sendMessage(m.cht, {
@@ -115,7 +115,7 @@ ${metadata}
                     },
                     mimetype: "audio/mpeg",
                 }, {
-                    quoted: m
+                    quoted: await m.froll(config.owner[0], Func.Styles('Mendownload Audio YouTube'))
                 });
             }
         } else if (isVideo) {
@@ -135,8 +135,8 @@ ${metadata}
                 video = savetube.download;
             } catch (e) {
                 try {
-                    const ytdownv = await Scraper.ytdown(finalUrl, "mp4", 720)
-                    video = ytdownv.result;
+                    const ddownrv = await Scraper.ddownr.download(finalUrl, '720');
+                    video = ddownrv.downloadUrl;
                 } catch (e) {}
             }
 
@@ -144,7 +144,7 @@ ${metadata}
                 method: "HEAD"
             });
             let fileSizeInBytes = parseInt(response.headers.get("content-length"));
-            if (fileSizeInBytes > 10 * 1024 * 1024) {
+            if (fileSizeInBytes > 30 * 1024 * 1024) {
                 return sock.sendMessage(m.cht, {
                     document: {
                         url: video
@@ -152,7 +152,7 @@ ${metadata}
                     mimetype: "video/mp4",
                     fileName: `${videom.title}.mp4`,
                 }, {
-                    quoted: m
+                    quoted: await m.froll(config.owner[0], Func.Styles('Mendownload Video YouTube'))
                 });
             } else {
                 return sock.sendMessage(m.cht, {
@@ -162,7 +162,7 @@ ${metadata}
                     mimetype: "video/mp4",
                     caption: `📁 Download YouTube\n${metadata}`
                 }, {
-                    quoted: m
+                    quoted: await m.froll(config.owner[0], Func.Styles('Mendownload Video YouTube'))
                 });
             }
         }
